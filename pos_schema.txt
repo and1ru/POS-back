@@ -1,39 +1,34 @@
-users
+users -> login y register ✔
 -------------------------------------
 | user_id | name | email | password |
 -------------------------------------
 
-companies
+companies -> create company y get company ✔
 ----------------------------------------
 | company_id | owner_id | company_name |
 ----------------------------------------
 
-company_users
--------------------------------------------------
-| company_user_id | company_id | user_id | role |
--------------------------------------------------
-
-branches
+branches -> create branch ✔
 --------------------------------------------------
 | branch_id | company_id | branch_name | address |
 --------------------------------------------------
 
-branch_users
-------------------------------------------------
-| branch_user_id | company_user_id | branch_id |
-------------------------------------------------
+branch_users -> contratar user, get Users (filtrar por branch y por rol) ✔
+-----------------------------------------------
+| branch_user_id | branch_id | user_id | role |
+-----------------------------------------------
 
-products
+products -> create product, get products, ✔
 ----------------------------------------------------
 | product_id | company_id | name | barcode | image |
 ----------------------------------------------------
 
-branch_products
+branch_products -> modificar los productos del company para la branch ✔
 ----------------------------------------------------------------------------------
 | branch_product_id | product_id | branch_id | stock | min_stock | selling_price |
 ----------------------------------------------------------------------------------
 
-payment_methods
+payment_methods -> mostrar los metodos de pago
 -----------------------------------
 | payment_method_id | method_name |
 -----------------------------------
@@ -42,10 +37,10 @@ payment_methods
 | 3 | Transfer |
 ----------------
 
-sales
--------------------------------------------------------------------------
+sales -> mostrar los sales
+-------------------------------------------------------------
 | sale_id | branch_id | branch_user_id | total | created_at |
--------------------------------------------------------------------------
+-------------------------------------------------------------
 
 sale_datail
 -----------------------------------------------------------------------------------
