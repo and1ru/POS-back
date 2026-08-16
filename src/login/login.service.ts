@@ -1,5 +1,6 @@
 import { comparePassword } from "../helper/comparePassword"
 import { CustomError } from "../helper/cutomError"
+import { generateToken } from "../helper/generateToken"
 import { loginRepository } from "./login.repository"
 import type { loginType } from "./login.schema"
 
@@ -17,7 +18,9 @@ export class LoginService {
         if(!verifyPassword){
             throw new CustomError(400, "contraseñas no coinciden")
         }
-        // retornar el usuario
-        return result
+
+        const token = generateToken({id:result.user_id, role:result.role})
+
+        return {token}
     }
 }

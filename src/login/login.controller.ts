@@ -12,10 +12,12 @@ export class LoginController{
         }
 
         try {
-            await this.service.login(data.data)
-
+            const result = await this.service.login(data.data)
+            const {token} = result
+            res.cookie("token", token)
             return res.status(200).json({message:"se inicio sesion", success:true})
         } catch (error) {
+            console.error(error)
             return next(error)
         }
     }

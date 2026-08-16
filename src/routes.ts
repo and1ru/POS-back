@@ -1,8 +1,10 @@
 import { Router } from "express";
-import register from './register/register.route.ts'
+import login from './login/login.route.ts'
+import auth from './Auth/Auth.route.ts'
 
 const routes = Router()
 
-routes.use(register)
+routes.use(login)
+routes.use(auth)
 
 export default routes

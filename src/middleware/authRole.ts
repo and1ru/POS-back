@@ -1,18 +1,17 @@
 import type { NextFunction, Request, Response } from "express"
+import { CustomError } from "../helper/cutomError"
 
-export const authToken = (...role:string[]) => {
+export const authRole = (...role:string[]) => {
     return (req: Request, _res: Response, next:NextFunction) => {
         const user = req.user
         if(!user){
-            // decir que no hay un usuario
-            return
+            return next(new CustomError(401, "user no authenticated"))
         }
 
-        const verify = role.includes(user.rol)
+        const verify = role.includes(user.role)
 
         if(!verify){
-            // decir que no tiene permiso
-            return
+            return next(new CustomError(401, "user no authorizated"))
         }
 
         next()

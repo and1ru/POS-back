@@ -1,6 +1,15 @@
+import type { RowDataPacket } from "mysql2";
 import { pool } from "../helper/pool"
 
-export const loginRepository = async (email:string) => {
-    const [row] = await pool.query("", [email])
-    return row
+interface response extends RowDataPacket {
+    user_id:number;
+    user_name:string;
+    email:string;
+    password:string;
+    role:string
+}
+
+export const loginRepository = async (email:string):Promise<response | undefined> => {
+    const [row] = await pool.query<response[]>("select * from users where email=?", [email])
+    return row[0]
 }
