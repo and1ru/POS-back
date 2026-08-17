@@ -1,5 +1,5 @@
 import type { RowDataPacket } from "mysql2";
-import { pool } from "../helper/pool"
+import { myDb } from "../helper/pool"
 
 interface response extends RowDataPacket {
     user_id:number;
@@ -10,6 +10,6 @@ interface response extends RowDataPacket {
 }
 
 export const AuthRepository = async (userId:number) => {
-    const [row] = await pool.query<response[]>("select * from users where user_id=?", [userId])
+    const [row] = await myDb.query<response[]>("select * from users where user_id=?", [userId])
     return row[0]
 }

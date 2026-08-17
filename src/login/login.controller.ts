@@ -17,7 +17,6 @@ export class LoginController{
             res.cookie("token", token)
             return res.status(200).json({message:"se inicio sesion", success:true})
         } catch (error) {
-            console.error(error)
             return next(error)
         }
     }

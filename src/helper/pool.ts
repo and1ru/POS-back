@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise'
 import { envs } from './envs';
 
 
-export const pool = mysql.createPool({
+export const myDb = mysql.createPool({
   host: envs.db_host,       // o la IP de tu servidor
   user: envs.db_user,
   password: envs.db_password,

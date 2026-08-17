@@ -1,7 +1,11 @@
 import z from 'zod'
 
-export const createCompanySchema = z.object({
-    name: z.string()
+export const companySchema = z.object({
+    companyName: z.string(),
+    ownerName: z.string(),
+    email: z.email(),
+    password: z.string(),
+    confirmPassword: z.string()
 })
 
-export type createCompanyType = z.infer<typeof createCompanySchema>
+export type companyType = z.infer<typeof companySchema>
