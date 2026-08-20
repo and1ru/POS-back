@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response} from 'express'
-import { CustomError } from '../helper/cutomError'
+import { CustomError } from '../../helper/cutomError'
 import type { AuthService } from './Auth.service'
 export class AuthController{
     constructor(private service:AuthService){}

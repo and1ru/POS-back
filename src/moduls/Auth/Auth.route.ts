@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { AuthController } from "./Auth.controller";
 import { AuthService } from "./Auth.service";
-import { authToken } from "../middleware/authToken";
+import { authToken } from "../../middleware/authToken";
 
 const service = new AuthService()
 const controller = new AuthController(service)

@@ -1,5 +1,5 @@
 import type { RowDataPacket } from "mysql2"
-import { myDb } from "../helper/pool"
+import { myDb } from "../../helper/pool"
 
 interface userResponse extends RowDataPacket {
     user_id:number

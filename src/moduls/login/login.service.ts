@@ -1,6 +1,6 @@
-import { comparePassword } from "../helper/comparePassword"
-import { CustomError } from "../helper/cutomError"
-import { generateToken } from "../helper/generateToken"
+import { comparePassword } from "../../helper/comparePassword"
+import { CustomError } from "../../helper/cutomError"
+import { generateToken } from "../../helper/generateToken"
 import { loginRepository } from "./login.repository"
 import type { loginType } from "./login.schema"
 

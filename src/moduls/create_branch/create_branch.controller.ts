@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { branchSchema } from "./create_branch.schema";
 import type { CreateBranchService } from "./create_branch.service";
-import { CustomError } from "../helper/cutomError";
+import { CustomError } from "../../helper/cutomError";
 
 export class CreateBranchController{
     constructor(private service:CreateBranchService){}

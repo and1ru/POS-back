@@ -1,4 +1,4 @@
-import { CustomError } from "../helper/cutomError"
+import { CustomError } from "../../helper/cutomError"
 import { AuthRepository } from "./Auth.repository"
 
 export class AuthService {

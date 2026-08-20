@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { CustomError } from "../helper/cutomError";
+import { CustomError } from "../../helper/cutomError";
 import type { GetBranchesService } from "./get_branches.service";
 
 export class GetBranchesController {

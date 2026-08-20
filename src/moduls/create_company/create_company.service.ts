@@ -1,4 +1,4 @@
-import { hashPassword } from "../helper/hashPassword"
+import { hashPassword } from "../../helper/hashPassword"
 import { CreateCompanyRepository } from "./create_company.repository"
 
 export class CreateCompanyService {
