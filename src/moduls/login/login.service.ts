@@ -19,7 +19,8 @@ export class LoginService {
             throw new CustomError(400, "contraseñas no coinciden")
         }
 
-        const token = generateToken({id:result.user_id, role:result.role})
+        const { id, role, company_id } = result
+        const token = generateToken({ userId:id, role, companyId:company_id })
 
         return {token}
     }

@@ -7,8 +7,9 @@ interface Result {
 }
 
 export class CreateProductService{
-    createProduct = async (userId:number,name:string, image:Express.Multer.File) => {
+    createProduct = async (name:string, image:Express.Multer.File, companyId:number) => {
         const generateImg:Result = await uploadImage(image.buffer, image.mimetype)
-        await CreateProductRepository(userId,name,generateImg.secure_url,generateImg.public_id)
+        const { secure_url, public_id} = generateImg
+        await CreateProductRepository(name, secure_url, public_id, companyId)
     }
 }

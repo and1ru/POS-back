@@ -8,6 +8,8 @@ export class AuthService {
             throw new CustomError(404, "no user")
         }
 
-        return { role:response.role }
+        const { role, name } = response
+
+        return { role, name }
     }
 }

@@ -1,4 +1,5 @@
 export interface Payload {
-    id: number;
+    userId: number;
+    companyId:number
     role: string;
 }
