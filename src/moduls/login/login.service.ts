@@ -2,11 +2,9 @@ import { comparePassword } from "../../helper/comparePassword"
 import { CustomError } from "../../helper/cutomError"
 import { generateToken } from "../../helper/generateToken"
 import { loginRepository } from "./login.repository"
-import type { loginType } from "./login.schema"
 
 export class LoginService {
-    login = async (user:loginType) => {
-        const { email, password} = user
+    login = async (email:string, password:string) => {
         // verificar que el usuario exista
         const result = await loginRepository(email)
         if(!result){
@@ -20,8 +18,6 @@ export class LoginService {
         }
 
         const { id, role, company_id } = result
-        const token = generateToken({ userId:id, role, companyId:company_id })
-
-        return {token}
+        return generateToken({ userId:id, role, companyId:company_id })
     }
 }

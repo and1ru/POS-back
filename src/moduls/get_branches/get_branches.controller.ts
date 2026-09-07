@@ -10,7 +10,7 @@ export class GetBranchesController {
 
         try {
             const response = await this.service.getBranches(companyId)
-            return res.status(200).json({message:"got branches", status:true, data:response})
+            return res.status(200).json({message:"got branches", status:true, result:response})
         } catch (error) {
             next(error)
         }

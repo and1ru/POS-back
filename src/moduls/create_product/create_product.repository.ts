@@ -1,13 +1,4 @@
-import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
-
-interface UserResponse extends RowDataPacket {
-    email:string
-}
-
-interface EmployeeResponse extends RowDataPacket {
-    company_id:number
-}
 
 export const CreateProductRepository = async (name:string, image:string, imageId:string, companyId:number) => {
     // inserta los datos de la imagen con el company_id

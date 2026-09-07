@@ -7,5 +7,5 @@ interface UserResponse extends ResultSetHeader {
 
 export const hireRepository = async (name:string, email:string, password:string, role:string, companyId:number, branchId:number) => {
     const [user] = await myDb.query<UserResponse>("INSERT INTO users (name, email, password, role, company_id) values(?,?,?,?,?) ",[name, email, password, role, companyId])
-    const [employee] = await myDb.query("INSERT INTO employees (branches_id, users_id)",[branchId, user.insertId])
+    await myDb.query("INSERT INTO employee (branch_id, user_id) values (?,?)",[branchId, user.insertId])
 }

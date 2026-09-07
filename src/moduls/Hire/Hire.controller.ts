@@ -13,6 +13,7 @@ export class HireController{
         if(!data.success){
             return next(data.error)
         }
+        
         try {
             const { branch, email, name, password, role } = data.data
             await this.service.hire(name, email, password, role, companyId, Number(branch))

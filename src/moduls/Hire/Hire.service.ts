@@ -1,3 +1,4 @@
+import { hashPassword } from "../../helper/hashPassword"
 import { hireRepository } from "./Hire.repository"
 
 export class HireSerivce{
@@ -5,6 +6,7 @@ export class HireSerivce{
         // verificar que exista la empresa
         // verificar que exista la branch
         // hire
-        await hireRepository(name, email, password, role, companyId, branchId)
+        const hashedPassword = await hashPassword(password)
+        await hireRepository(name, email, hashedPassword, role, companyId, branchId)
     }
 }
