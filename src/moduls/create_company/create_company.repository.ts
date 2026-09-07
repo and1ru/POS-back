@@ -12,3 +12,8 @@ export const CreateCompanyRepository = async (companyName:string, userName:strin
     // 2. create an user
     await myDb.query("INSERT INTO users (name, email, password, role, company_id) VALUES (?,?,?,?,?)", [userName, email, password, "owner", createCompany.insertId])
 }
+
+export const findUser = async (email:string) => {
+    const [user] = await myDb.query("SELECT email from users where email=?",[email])
+    return user
+}
