@@ -7,7 +7,6 @@ export class CreateProductController {
   createProduct = async (req: Request, res: Response, next: NextFunction) => {
     const data = updateProductSchema.safeParse(req.body);
     const userId = req.user?.userId;
-    console.log(data)
     if (!userId) {
       return res.status(400).json({ message: "no autheticated", success: false });
     }

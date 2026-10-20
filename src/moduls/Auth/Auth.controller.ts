@@ -12,7 +12,6 @@ export class AuthController{
             const result = {role, name}
             return res.status(200).json({message:"authenticado", success:true, result})
         } catch (error) {
-            console.error(error)
             return next(error)
         }
     }

@@ -9,8 +9,3 @@ export const hireRepository = async (name:string, email:string, password:string,
     const [user] = await myDb.query<UserResponse>("INSERT INTO users (name, email, password, role, company_id) values(?,?,?,?,?) ",[name, email, password, role, companyId])
     await myDb.query("INSERT INTO employee (branch_id, user_id) values (?,?)",[branchId, user.insertId])
 }
-
-export const findUser = async (email:string) => {
-    const [user] = await myDb.query("SELECT email from users where email=?",[email])
-    return user
-}

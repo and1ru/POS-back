@@ -7,7 +7,6 @@ export class InventoryService{
         }
         if(role === "admin"){
             const result = await inventoryRepositoryAdmin(userId)
-            console.log(result)
             return result
         }
         if(role === "cashier"){

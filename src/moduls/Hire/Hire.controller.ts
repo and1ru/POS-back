@@ -6,10 +6,8 @@ export class HireController{
     constructor(private service:HireSerivce){}
     hire = async (req:Request, res:Response, next:NextFunction) => {
         const data = hireSchema.safeParse(req.body)
-        const companyId = req.user?.companyId
-        if(!companyId){
-            return res.status(401).json({message:"", success:false})
-        }
+        const companyId = req.user.companyId
+
         if(!data.success){
             return next(data.error)
         }

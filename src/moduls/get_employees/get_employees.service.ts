@@ -10,11 +10,9 @@ export class EmployeesService {
         let result;
         if(userRole === "admin"){
             result = await employeesAdmin(userId)
-            console.log(result)
         }
         if(userRole === "owner"){
             result = await employees(companyId)
-            console.log(result)
         }
         return result
     }

@@ -13,10 +13,6 @@ export class EmployeesController {
             return res.status(400).json({message:"no authenticated", success:false})
         }
 
-        console.log(userRole)
-        console.log(userId)
-        console.log(companyId)
-
         try {
             const result = await this.service.employee(userRole, userId, companyId)
             return res.status(200).json({message:"got employees", success:true, result})
