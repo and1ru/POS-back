@@ -3,7 +3,7 @@
 // it will be able to filter by role and branch (just for owner)
 // if an adnmin tries to filter by role o branch return an error
 
-import { employees, employeesAdmin } from "./get_employees.repository";
+import { employeesOwner, employeesAdmin } from "./get_employees.repository";
 
 export class EmployeesService {
     employee = async (userRole:string, userId:number, companyId:number) => {
@@ -12,8 +12,9 @@ export class EmployeesService {
             result = await employeesAdmin(userId)
         }
         if(userRole === "owner"){
-            result = await employees(companyId)
+            result = await employeesOwner(companyId)
         }
+
         return result
     }
 }

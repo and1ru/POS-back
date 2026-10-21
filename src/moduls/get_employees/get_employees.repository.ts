@@ -28,13 +28,25 @@ export const employeesAdmin = async (userId: number) => {
     return employees;
 };
 
-interface ResultUser extends RowDataPacket{
-    name:string;
-    role:string;
-    id:number;
+interface ResultUser extends RowDataPacket {
+    name: string;
+    role: string;
+    id: number;
+    branch_name:string
 }
 
-export const employees = async (companyId:number) => {
-    const [result] = await myDb.query<ResultUser[]>("SELECT name,role,id FROM users where company_id=? and ( role = 'admin' or role='cashier' )", [companyId])
+export const employeesOwner = async (companyId: number) => {
+    const [result] = await myDb.query<ResultUser[]>(`
+        select 
+            users.id,
+	        users.name, 
+            users.role, 
+            branches.name as branch_name
+            from users
+            inner join employee on users.id = employee.user_id
+            inner join branches on employee.branch_id = branches.id
+
+            where users.company_id = ?
+        `, [companyId])
     return result
 }
