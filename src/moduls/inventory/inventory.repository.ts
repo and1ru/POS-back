@@ -1,8 +1,8 @@
 import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
 
-export const inventoryRepositoryOwner = async (companyId:number) => {
-    const [result] = await myDb.query("SELECT id, name, image_url FROM products where company_id=? ",[companyId])
+export const inventoryRepositoryOwner = async (companyId:number, productName:string) => {
+    const [result] = await myDb.query("SELECT id, name, image_url FROM products where company_id=? AND name LIKE ? ",[companyId, productName])
     return result
 }
 

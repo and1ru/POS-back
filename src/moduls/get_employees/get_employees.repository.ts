@@ -35,7 +35,7 @@ interface ResultUser extends RowDataPacket {
     branch_name:string
 }
 
-export const employeesOwner = async (companyId: number) => {
+export const employeesOwner = async (companyId: number, employeeName:string, employeeRole:string, employeeBranch:string) => {
     const [result] = await myDb.query<ResultUser[]>(`
         select 
             users.id,
@@ -43,10 +43,13 @@ export const employeesOwner = async (companyId: number) => {
             users.role, 
             branches.name as branch_name
             from users
-            inner join employee on users.id = employee.user_id
-            inner join branches on employee.branch_id = branches.id
+            inner join employees on users.id = employees.user_id
+            inner join branches on employees.branch_id = branches.id
 
-            where users.company_id = ?
-        `, [companyId])
+            where users.company_id = ? AND
+            users.name like ? AND
+            users.role like ? AND
+            employees.branch_id like ?
+        `, [companyId, employeeName, employeeRole, employeeBranch])
     return result
 }

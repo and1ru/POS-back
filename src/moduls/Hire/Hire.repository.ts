@@ -5,7 +5,22 @@ interface UserResponse extends ResultSetHeader {
     insertId:number
 }
 
-export const hireRepository = async (name:string, email:string, password:string, role:string, companyId:number, branchId:number) => {
-    const [user] = await myDb.query<UserResponse>("INSERT INTO users (name, email, password, role, company_id) values(?,?,?,?,?) ",[name, email, password, role, companyId])
-    await myDb.query("INSERT INTO employee (branch_id, user_id) values (?,?)",[branchId, user.insertId])
+export const hireRepository = async (name:string, email:string, password:string, role:string, companyId:number, branchId:number, salary:number, date:Date) => {
+    await myDb.query(`
+        start transaction;
+
+        -- crear el usuario
+        insert into users (name, email, password, role, company_id)
+        values (?, ?, ?, ?, ?);
+
+        -- obtener el id del registro de user
+        set @user_id = last_insert_id();
+
+        -- registrar el employee
+        insert into employees (user_id, branch_id, date, salary)
+        values (@user_id, ? ,?, ?);
+
+        -- confirmar operacion
+        COMMIT;
+        `, [name, email, password, role, companyId, branchId, date, salary])
 }

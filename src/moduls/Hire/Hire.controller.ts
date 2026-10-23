@@ -13,8 +13,8 @@ export class HireController{
         }
         
         try {
-            const { branch, email, name, password, role } = data.data
-            await this.service.hire(name, email, password, role, companyId, Number(branch))
+            const { branch, email, name, password, role, salary } = data.data
+            await this.service.hire(name, email, password, role, companyId, Number(branch), salary)
             return res.status(201).json({message:"employee hire", success:true})
         } catch (error) {
             next(error)

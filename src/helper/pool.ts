@@ -10,5 +10,6 @@ export const myDb = mysql.createPool({
   port: envs.db_port || 3306,              // puerto por defecto de MySQL
   waitForConnections: true,
   connectionLimit: 10,     // conexiones simultáneas
-  queueLimit: 0
+  queueLimit: 0,
+  multipleStatements: true
 });

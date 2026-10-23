@@ -9,7 +9,15 @@ export class CreateCompanyService {
             throw new CustomError(400, "credentials error")
         }
 
+        const currentDate = new Date()
+
+        const year =  currentDate.getFullYear()
+        const month = String(currentDate.getMonth() + 1).padStart(2, "0")
+        const day = String(currentDate.getDate()).padStart(2, "0")
+
+        const finalDate = `${year}-${month}-${day}`
+
         const hashedPassword = await hashPassword(password)
-        await CreateCompanyRepository(companyName,ownerName,email,hashedPassword)
+        await CreateCompanyRepository(companyName, finalDate, ownerName,email,hashedPassword)
     }
 }

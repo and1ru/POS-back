@@ -1,15 +1,16 @@
-import type { ResultSetHeader, RowDataPacket } from "mysql2"
+import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
 
-interface CreateCompany extends ResultSetHeader {
-    insertId:number;
-}
+export const CreateCompanyRepository = async (companyName:string, date:string, userName:string, email:string, password:string ) => {
+    await myDb.query(`
+      start transaction;
+      insert into companies (name, date) values (?,?);
+      
+      set @company_id = last_insert_id();
 
-export const CreateCompanyRepository = async (companyName:string, userName:string, email:string, password:string ) => {
-    // 1. create company
-    const [createCompany] = await myDb.query<CreateCompany>("INSERT INTO companies (name) VALUES (?)",[companyName])
-    // 2. create an user
-    await myDb.query("INSERT INTO users (name, email, password, role, company_id) VALUES (?,?,?,?,?)", [userName, email, password, "owner", createCompany.insertId])
+      insert into users (name, email, password, role, company_id) values (?,?,?,?, @company_id);
+      commit;
+    `, [companyName, date, userName, email, password, "owner" ])
 }
 
 interface findUserByEmailResult extends RowDataPacket {

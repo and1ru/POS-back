@@ -5,16 +5,15 @@ export class InventoryController {
     constructor(private service:InventoryService){}
 
     inventory = async (req:Request, res:Response, next:NextFunction) => {
-        const companyId = req.user?.companyId
-        const userRole = req.user?.role
-        const userId = req.user?.userId
+        const { companyId, userId, role} = req.user
+        const { productName } = req.query
 
-        if(!companyId || !userRole || !userId){
-            return res.status(401).json({message:"no authenticated", success:false})
+        if(typeof productName !== "string" && productName !== undefined){
+            return res.status(400).json({ message: "", success:false })
         }
 
         try {
-            const result = await this.service.intentory(userRole, companyId, userId)
+            const result = await this.service.intentory(role, companyId, userId, productName)
             return res.status(200).json({message:"got products", success:true, result})
         } catch (error) {
             next(error)

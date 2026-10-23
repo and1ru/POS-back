@@ -8,6 +8,6 @@ const service = new GetEmployeeService()
 const controller = new GetEmployeeController(service)
 const router = Router()
 
-router.get("/employee/employeeId", authToken, authRole("owner", "admin"), controller.employee)
+router.get("/employee/:employeeId", authToken, authRole("owner", "admin"), controller.employee)
 
 export default router
