@@ -13,6 +13,7 @@ import createProduct from './moduls/create_branch_product/create_branch_product.
 import updateBranchProduct from './moduls/update_branch_product/update_branch_product.route.ts'
 import employee from './moduls/get_employee/get_employee.route.ts'
 import updateProduct from './moduls/update_product/update_product.route.ts'
+import updateEmployee from './moduls/update_employee/update_employee.route.ts'
 
 const routes = Router()
 
@@ -30,5 +31,6 @@ routes.use(createProduct)
 routes.use(updateBranchProduct)
 routes.use(employee)
 routes.use(updateProduct)
+routes.use(updateEmployee)
 
 export default routes

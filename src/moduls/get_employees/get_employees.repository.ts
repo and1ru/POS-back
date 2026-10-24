@@ -7,23 +7,24 @@ interface EmployeeResponse extends RowDataPacket {
     branch_id: number;
 }
 
-export const employeesAdmin = async (userId: number) => {
+export const employeesAdmin = async (userId: number, name:string) => {
 
     const [employees] = await myDb.query<EmployeeResponse[]>(`
         SELECT 
-            e.id,
-            e.user_id,
-            e.branch_id
-        FROM employee e
-        INNER JOIN users u
-            ON u.id = e.user_id
-        WHERE e.branch_id = (
-            SELECT branch_id
-            FROM employee
-            WHERE user_id = ?
-        )
-        AND u.role = 'cashier'
-    `, [userId]);
+	        users.name,
+	        users.id,
+            users.role,
+            branches.name as branch_name
+            FROM users
+            INNER JOIN employees ON users.id = employees.user_id
+            INNER JOIN branches on branches.id = employees.branch_id
+		    WHERE users.role = 'cashier'
+            AND employees.branch_id = (
+			    select branch_id
+                from employees where user_id = ?
+            )
+            AND users.name like ?
+    `, [userId, name]);
 
     return employees;
 };

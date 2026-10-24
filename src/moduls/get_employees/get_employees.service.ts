@@ -18,9 +18,8 @@ export class EmployeesService {
             finalEmployeeRole = `%${employeeRole}%`
         }
 
-
         if(userRole === "admin"){
-            return await employeesAdmin(userId)
+            return await employeesAdmin(userId, finalEmployeeName)
         }
         if(userRole === "owner"){
             return await employeesOwner(companyId, finalEmployeeName, finalEmployeeRole, finalEmployeeBranch)
