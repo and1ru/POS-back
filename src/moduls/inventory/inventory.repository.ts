@@ -6,7 +6,7 @@ export const inventoryRepositoryOwner = async (companyId: number, productName: s
     return result
 }
 
-export const inventoryRepositoryAdmin = async (userId: number) => {
+export const inventoryRepositoryAdmin = async (userId: number, productName:string, price:string, stock:string) => {
     const [result] = await myDb.query(`
         SELECT
 	        p.name,
@@ -16,6 +16,7 @@ export const inventoryRepositoryAdmin = async (userId: number) => {
 	        bp.minStock,
             bp.boughtPriceProduct,
             bp.sellPriceProduct,
+        
         CASE WHEN bp.id IS NULL 
             THEN FALSE
 	        ELSE TRUE
@@ -26,9 +27,15 @@ export const inventoryRepositoryAdmin = async (userId: number) => {
             ON p.id = bp.product_id
             AND bp.branch_id = ( select branch_id from employees where user_id = ? ) 
         
-        
-        ORDER BY is_in_branch DESC
-        `, [userId])
+        WHERE p.name like ?
+
+        ORDER BY 
+			is_in_branch DESC,
+            CASE WHEN ? = 'desc' THEN bp.stock END DESC,
+            CASE WHEN ? = 'asc' THEN bp.stock END ASC,
+			CASE WHEN ? = 'desc' THEN bp.sellPriceProduct END DESC,
+            CASE WHEN ? = 'asc' THEN bp.sellPriceProduct END ASC;
+        `, [userId, productName, stock, stock, price, price])
 
     return result
 }

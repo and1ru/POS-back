@@ -6,7 +6,7 @@ export class HireController{
     constructor(private service:HireSerivce){}
     hire = async (req:Request, res:Response, next:NextFunction) => {
         const data = hireSchema.safeParse(req.body)
-        const companyId = req.user.companyId
+        const {companyId, role:userRole, userId} = req.user
 
         if(!data.success){
             return next(data.error)
@@ -14,7 +14,7 @@ export class HireController{
         
         try {
             const { branch, email, name, password, role, salary } = data.data
-            await this.service.hire(name, email, password, role, companyId, Number(branch), salary)
+            await this.service.hire(name, email, password, role, companyId, Number(branch), salary, userRole, userId)
             return res.status(201).json({message:"employee hire", success:true})
         } catch (error) {
             next(error)

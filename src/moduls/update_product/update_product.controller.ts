@@ -4,7 +4,6 @@ import type { UpdateProductService } from "./update_product.service";
 export class UpdateProductController {
     constructor(private service:UpdateProductService){}
     updateProduct = async (req:Request, res:Response, next:NextFunction) => {
-        console.log("controller")
         const { name, id } = req.body
         const image = req.file
 

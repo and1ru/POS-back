@@ -6,14 +6,18 @@ export class InventoryController {
 
     inventory = async (req:Request, res:Response, next:NextFunction) => {
         const { companyId, userId, role} = req.user
-        const { productName } = req.query
-
-        if(typeof productName !== "string" && productName !== undefined){
+        const { productName, price, stock } = req.query
+        
+        if(
+            (typeof productName !== "string" && productName !== undefined) ||
+            (typeof stock !== "string" && stock !== undefined) ||
+            (typeof price !== "string" && price !== undefined)
+        ){
             return res.status(400).json({ message: "", success:false })
         }
 
         try {
-            const result = await this.service.intentory(role, companyId, userId, productName)
+            const result = await this.service.intentory(role, companyId, userId, productName, price, stock)
             return res.status(200).json({message:"got products", success:true, result})
         } catch (error) {
             next(error)

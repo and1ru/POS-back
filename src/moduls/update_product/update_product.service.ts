@@ -9,7 +9,6 @@ interface Result {
 export class UpdateProductService {
     updateProduct = async (name:string | undefined, image:Express.Multer.File | undefined, id:number) => {
         // si envia una imagen tiene que eliminar la que ya existe y insertar la nueva
-        console.log("service")
         let secure_url:string | null = null;
         let public_id:string | null = null;
 
