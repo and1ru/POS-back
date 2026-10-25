@@ -8,6 +8,6 @@ const service = new CreateProductService();
 const controller = new CreateProductController(service);
 const route = Router();
 
-route.post("/branch-product",authToken,authRole("admin"),controller.createProduct);
+route.post("/branch-product", authToken, authRole("admin"), controller.createProduct);
 
 export default route;

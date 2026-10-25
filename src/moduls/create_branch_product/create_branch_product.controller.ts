@@ -6,17 +6,15 @@ export class CreateProductController {
   constructor(private service: CreateProductService) {}
   createProduct = async (req: Request, res: Response, next: NextFunction) => {
     const data = updateProductSchema.safeParse(req.body);
-    const userId = req.user?.userId;
-    if (!userId) {
-      return res.status(400).json({ message: "no autheticated", success: false });
-    }
+    const { userId } = req.user
+
     if (!data.success) {
       return next(data.error);
     }
 
     try {
-      const { price, productId, stock } = data.data;
-      await this.service.createProduct(price, productId, stock, userId);
+      const { boughtPriceProduct, currentStock, minStock, sellPriceProduct, productId } = data.data;
+      await this.service.createProduct(boughtPriceProduct, currentStock, minStock, sellPriceProduct, productId, userId);
       return res.status(200).json({ message: "product updated", success: true });
     } catch (error) {
       next(error);

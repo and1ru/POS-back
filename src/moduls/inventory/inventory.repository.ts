@@ -1,39 +1,44 @@
 import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
 
-export const inventoryRepositoryOwner = async (companyId:number, productName:string) => {
-    const [result] = await myDb.query("SELECT id, name, image_url FROM products where company_id=? AND name LIKE ? ",[companyId, productName])
+export const inventoryRepositoryOwner = async (companyId: number, productName: string) => {
+    const [result] = await myDb.query("SELECT id, name, image_url FROM products where company_id=? AND name LIKE ? ", [companyId, productName])
     return result
 }
 
-interface ResultEmployee extends RowDataPacket{
-    branch_id:number
-}
-
-export const inventoryRepositoryAdmin = async (userId:number) => {
-    const [user] = await myDb.query<ResultEmployee[]>("select branch_id from employee where user_id = ? ",[userId])
+export const inventoryRepositoryAdmin = async (userId: number) => {
     const [result] = await myDb.query(`
         SELECT
-    p.id,
-    p.name,
-    p.image_url,
-    bp.price,
-    bp.stock,
-    CASE
-        WHEN bp.id IS NULL THEN FALSE
-        ELSE TRUE
-    END AS is_in_branch
-FROM products p
-LEFT JOIN branch_products bp
-    ON p.id = bp.product_id
-    AND bp.branch_id = ? ORDER BY is_in_branch DESC
-        `,[user[0]!.branch_id])
+	        p.name,
+	        p.image_url,
+	        p.id,
+	        bp.stock,
+	        bp.minStock,
+            bp.boughtPriceProduct,
+            bp.sellPriceProduct,
+        CASE WHEN bp.id IS NULL 
+            THEN FALSE
+	        ELSE TRUE
+        END AS is_in_branch
+
+        FROM products p
+        LEFT JOIN branch_products bp
+            ON p.id = bp.product_id
+            AND bp.branch_id = ( select branch_id from employees where user_id = ? ) 
+        
+        
+        ORDER BY is_in_branch DESC
+        `, [userId])
 
     return result
 }
 
-export const inventoryRepositoryCashier = async (userId:number) => {
-    const [user] = await myDb.query<ResultEmployee[]>("select branch_id from employee where user_id = ? ",[userId])
+interface ResultEmployee extends RowDataPacket {
+    branch_id: number
+}
+
+export const inventoryRepositoryCashier = async (userId: number) => {
+    const [user] = await myDb.query<ResultEmployee[]>("select branch_id from employee where user_id = ? ", [userId])
     const [result] = await myDb.query("SELECT p.name, p.image_url, bp.id, bp.price, bp.stock FROM products p LEFT JOIN branch_products bp ON p.id = bp.product_id AND bp.branch_id = ?", [user[0]!.branch_id])
     return result
 }

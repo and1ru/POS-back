@@ -1,7 +1,9 @@
 import z from 'zod'
 
 export const updateProductSchema = z.object({
-    productId: z.number(),
-    price: z.number(),
-    stock: z.number()
+    minStock: z.number().positive().int(),
+    currentStock: z.number().positive().int(),
+    boughtPriceProduct: z.number().positive(),
+    sellPriceProduct: z.number().positive(),
+    productId: z.number().int().positive()
 })

@@ -1,23 +1,22 @@
 import { CustomError } from "../../helper/cutomError"
-import { createProductBranch, findBranchId, findProduct } from "./create_branch_product.repository"
+import { createProductBranch, findBranchId, findBranchProduct } from "./create_branch_product.repository"
 
 export class CreateProductService {
-    createProduct = async (price: number, productId: number, stock: number, userId: number) => {
+    createProduct = async (boughtPriceProduct:number, currentStock:number, minStock:number, sellPriceProduct:number, productId:number, userId:number) => {
         // buscar la branch
         const branchId = await findBranchId(userId)
         // si la branch no existe error
         if (!branchId) {
             throw new CustomError(404, "branch no found")
         }
+
         // verificar si el product existe
-        const product = await findProduct(productId, branchId[0]!.branchId)
+        const product = await findBranchProduct(productId, userId)
         // si el producto existe error
         if (product.length > 0) {
-            throw new CustomError(401, "product already exist")
+            throw new CustomError(400, "product already exist")
         }
 
-        await createProductBranch(price, stock, productId, branchId[0]!.branch_id)
-
-        return
+        await createProductBranch(minStock, currentStock, boughtPriceProduct, sellPriceProduct, userId, productId)
     }
 }
