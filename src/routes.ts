@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import login from './moduls/login/login.route.ts'
 import auth from './moduls/Auth/Auth.route.ts'
 import company from './moduls/create_company/create_company.route.ts'
@@ -14,6 +15,7 @@ import updateBranchProduct from './moduls/update_branch_product/update_branch_pr
 import employee from './moduls/get_employee/get_employee.route.ts'
 import updateProduct from './moduls/update_product/update_product.route.ts'
 import updateEmployee from './moduls/update_employee/update_employee.route.ts'
+import newSale from './moduls/new_sale/new_sale.route.ts'
 
 const routes = Router()
 
@@ -32,5 +34,6 @@ routes.use(updateBranchProduct)
 routes.use(employee)
 routes.use(updateProduct)
 routes.use(updateEmployee)
+routes.use(newSale)
 
 export default routes
