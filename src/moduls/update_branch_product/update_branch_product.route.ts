@@ -8,6 +8,6 @@ const service = new UpdateProductService()
 const controller = new UpdateProductController(service)
 const route = Router()
 
-route.patch("/branch-product", authToken, authRole("admin"), controller.updateProduct)
+route.put("/branch-product", authToken, authRole("admin"), controller.updateProduct)
 
 export default route

@@ -28,7 +28,7 @@ export class InventoryService {
         }
 
         if (role === "cashier") {
-            const result = await inventoryRepositoryCashier(userId)
+            const result = await inventoryRepositoryCashier(`%${name}%`)
             return result
         }
     }

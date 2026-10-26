@@ -12,6 +12,7 @@ export const inventoryRepositoryAdmin = async (userId: number, productName:strin
 	        p.name,
 	        p.image_url,
 	        p.id,
+            bp.id as branch_product_id,
 	        bp.stock,
 	        bp.minStock,
             bp.boughtPriceProduct,
@@ -40,12 +41,18 @@ export const inventoryRepositoryAdmin = async (userId: number, productName:strin
     return result
 }
 
-interface ResultEmployee extends RowDataPacket {
-    branch_id: number
-}
+export const inventoryRepositoryCashier = async (name:string) => {
+    const [result] = await myDb.query(`
+        SELECT
+	        bp.sellPriceProduct,
+	        bp.id,
+            bp.stock,
+            p.name,
+            p.image_url
+        FROM branch_products bp
+        LEFT JOIN products p ON bp.product_id = p.id
 
-export const inventoryRepositoryCashier = async (userId: number) => {
-    const [user] = await myDb.query<ResultEmployee[]>("select branch_id from employee where user_id = ? ", [userId])
-    const [result] = await myDb.query("SELECT p.name, p.image_url, bp.id, bp.price, bp.stock FROM products p LEFT JOIN branch_products bp ON p.id = bp.product_id AND bp.branch_id = ?", [user[0]!.branch_id])
+        WHERE p.name like ?
+        `, [name])
     return result
 }
