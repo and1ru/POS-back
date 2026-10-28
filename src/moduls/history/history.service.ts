@@ -1,5 +1,5 @@
 import { CustomError } from "../../helper/cutomError";
-import { historyAdmin, historyCashier } from "./history.repository"
+import { historyAdmin, historyCashier, historyOwner } from "./history.repository"
 import { DateTime } from "luxon"
 
 const TIME_ZONE = "America/Bogota";
@@ -59,7 +59,7 @@ export class HistoryService {
         }
 
         if (role === "owner"){
-            
+            return await historyOwner(userId, finalSaleId, start, end)
         }
     }
 }

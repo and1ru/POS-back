@@ -62,7 +62,7 @@ export const inventoryRepositoryCashier = async (name:string, userId:number) => 
         INNER JOIN products p ON bp.product_id = p.id
 		
         WHERE
-            p.name like "%%" AND
+            p.name like ? AND
             p.company_id = (select company_id from users where id = ?)
         `, [name, userId])
     return result
