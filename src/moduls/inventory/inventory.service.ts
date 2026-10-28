@@ -23,13 +23,11 @@ export class InventoryService {
                 finalPrice = price
             }
 
-            const result = await inventoryRepositoryAdmin(userId, `%${name}%`, finalPrice, finalStock)
-            return result
+            return await inventoryRepositoryAdmin(userId, `%${name}%`, finalPrice, finalStock)
         }
 
         if (role === "cashier") {
-            const result = await inventoryRepositoryCashier(`%${name}%`)
-            return result
+            return await inventoryRepositoryCashier(`%${name}%`, userId)
         }
     }
 }

@@ -1,8 +1,15 @@
-import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
 
 export const inventoryRepositoryOwner = async (companyId: number, productName: string) => {
-    const [result] = await myDb.query("SELECT id, name, image_url FROM products where company_id=? AND name LIKE ? ", [companyId, productName])
+    const [result] = await myDb.query(`
+        SELECT 
+            id, 
+            name, 
+            image_url 
+        FROM products 
+            where company_id=? AND 
+            name LIKE ? 
+        `, [companyId, productName])
     return result
 }
 
@@ -17,18 +24,20 @@ export const inventoryRepositoryAdmin = async (userId: number, productName:strin
 	        bp.minStock,
             bp.boughtPriceProduct,
             bp.sellPriceProduct,
-        
-        CASE WHEN bp.id IS NULL 
-            THEN FALSE
-	        ELSE TRUE
+			bp.branch_id,
+        CASE 
+			WHEN bp.id IS NULL 
+				THEN FALSE
+				ELSE TRUE
         END AS is_in_branch
 
-        FROM products p
-        LEFT JOIN branch_products bp
-            ON p.id = bp.product_id
-            AND bp.branch_id = ( select branch_id from employees where user_id = ? ) 
+        FROM products p 
+        LEFT JOIN branch_products bp ON p.id = bp.product_id
+        AND  bp.branch_id = ( select branch_id from employees where user_id = ? )
         
-        WHERE p.name like ?
+        WHERE 
+			p.company_id = (select company_id from users where id = ?) AND
+            p.name like ?
 
         ORDER BY 
 			is_in_branch DESC,
@@ -36,12 +45,12 @@ export const inventoryRepositoryAdmin = async (userId: number, productName:strin
             CASE WHEN ? = 'asc' THEN bp.stock END ASC,
 			CASE WHEN ? = 'desc' THEN bp.sellPriceProduct END DESC,
             CASE WHEN ? = 'asc' THEN bp.sellPriceProduct END ASC;
-        `, [userId, productName, stock, stock, price, price])
+        `, [userId,userId, productName, stock, stock, price, price])
 
     return result
 }
 
-export const inventoryRepositoryCashier = async (name:string) => {
+export const inventoryRepositoryCashier = async (name:string, userId:number) => {
     const [result] = await myDb.query(`
         SELECT
 	        bp.sellPriceProduct,
@@ -50,9 +59,11 @@ export const inventoryRepositoryCashier = async (name:string) => {
             p.name,
             p.image_url
         FROM branch_products bp
-        LEFT JOIN products p ON bp.product_id = p.id
-
-        WHERE p.name like ?
-        `, [name])
+        INNER JOIN products p ON bp.product_id = p.id
+		
+        WHERE
+            p.name like "%%" AND
+            p.company_id = (select company_id from users where id = ?)
+        `, [name, userId])
     return result
 }
