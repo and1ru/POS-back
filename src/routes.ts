@@ -17,6 +17,7 @@ import updateProduct from './moduls/update_product/update_product.route.ts'
 import updateEmployee from './moduls/update_employee/update_employee.route.ts'
 import newSale from './moduls/new_sale/new_sale.route.ts'
 import history from './moduls/history/history.route.ts'
+import statistics from './moduls/statistics/statistics.route.ts'
 
 const routes = Router()
 
@@ -37,5 +38,6 @@ routes.use(updateProduct)
 routes.use(updateEmployee)
 routes.use(newSale)
 routes.use(history)
+routes.use(statistics)
 
 export default routes
