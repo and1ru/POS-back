@@ -63,7 +63,7 @@ export const inventoryRepositoryCashier = async (name:string, userId:number) => 
 		
         WHERE
             p.name like ? AND
-            p.company_id = (select company_id from users where id = ?)
+            bp.branch_id = (select branch_id from employees where user_id = ?)
         `, [name, userId])
     return result
 }

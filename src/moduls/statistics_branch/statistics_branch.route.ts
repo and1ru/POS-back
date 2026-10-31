@@ -8,6 +8,6 @@ const service = new StatisticsBranchService()
 const controller = new StatisticsBranchController(service)
 const router = Router()
 
-router.get("/statistics/branch", authToken, authRole("admin", "owner"), controller.statisticsBranch)
+router.get("/statistics/branch", authToken, authRole("owner", "admin"), controller.statisticsBranch)
 
 export default router
