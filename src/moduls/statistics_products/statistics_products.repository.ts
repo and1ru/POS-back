@@ -1,8 +1,10 @@
 import { myDb } from "../../helper/pool"
+import type { statisticsProductsDB } from "./statistics_products.schema"
 
 export const statisticsProductsRepositoryOwner = async (companyId:number, branchId:string, productName:string, start:string, end:string, groupDate:string) => {
-    const [result] = await myDb.query(
+    const [result] = await myDb.query<statisticsProductsDB[]>(
     `select
+        p.id,
 	    p.name,
         SUM(sp.quantity) as quantity,
         SUM(sp.price * sp.quantity) as total,
@@ -24,7 +26,7 @@ export const statisticsProductsRepositoryOwner = async (companyId:number, branch
 }
 
 export const statisticsProductsRepositoryAdmin = async (groupDate:string, companyId:number, userId:number, name:string, start:string, end:string) => {
-    const [result] = await myDb.query(`
+    const [result] = await myDb.query<statisticsProductsDB[]>(`
         select
 	    p.name,
         SUM(sp.quantity) as quantity,

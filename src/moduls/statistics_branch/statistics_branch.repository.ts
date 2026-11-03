@@ -1,7 +1,11 @@
+import type { RowDataPacket } from "mysql2";
 import { myDb } from "../../helper/pool"
+import type { statisticsBranchResponse } from "./statistics_branch.schema";
+
+
 
 export const statisticsBranchOwner = async (groupDate:string, companyId:number, branchId:string, start:string, end:string) => {
-    const [result] = await myDb.query(`
+    const [result] = await myDb.query<statisticsBranchResponse[]>(`
         select 
 	        b.id,
 	        b.name,
@@ -24,7 +28,7 @@ export const statisticsBranchOwner = async (groupDate:string, companyId:number, 
 }
 
 export const statisticsBranchAdmin = async (groupDate:string, companyId:number, userId:number, start:string, end:string) => {
-    const [result] = await myDb.query(`
+    const [result] = await myDb.query<statisticsBranchResponse[]>(`
         select 
 	        b.id,
 	        b.name,

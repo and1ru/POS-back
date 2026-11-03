@@ -13,7 +13,6 @@ export const timeHelper = (time:string) => {
         case "all":
             groupDate = `date_format(s.date, "%y")`
             start = DateTime.fromObject({ year: 2000, month: 1, day: 1 })
-            end = now
             break;
 
         case "year":

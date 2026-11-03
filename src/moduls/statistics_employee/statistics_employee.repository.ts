@@ -1,7 +1,8 @@
 import { myDb } from "../../helper/pool"
+import type { Result } from "./statistics_employee.schema"
 
 export const statisticsEmployeeRepositoryOwner = async (groupDate:string, companyId:number, branchId:string, start:string, end:string, name:string) => {    
-    const [result] = await myDb.query(
+    const [result] = await myDb.query<Result[]>(
         `select 
 	        u.id,
             u.name as user_name,
@@ -19,13 +20,14 @@ export const statisticsEmployeeRepositoryOwner = async (groupDate:string, compan
             AND s.date between ? AND ?
             AND u.name like ?
         GROUP BY u.id, u.name, b.name, ${groupDate}
+        ORDER BY ${groupDate}
         `,[companyId, branchId, start, end, name])
 
     return result
 }
 
 export const statisticsEmployeeRepositoryAdmin = async (groupDate:string, companyId:number, userId:number, start:string, end:string, name:string) => {
-    const [result] = await myDb.query(
+    const [result] = await myDb.query<Result[]>(
         `select 
 	        u.id,
             u.name as user_name,
