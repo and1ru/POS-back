@@ -20,6 +20,7 @@ import history from './moduls/history/history.route.ts'
 import statisticsBranch from './moduls/statistics_branch/statistics_branch.route.ts'
 import statisticsEmployee from './moduls/statistics_employee/statistics_employee.route.ts'
 import statisticsProducts from './moduls/statistics_products/statistics_products.route.ts'
+import statisticsCompany from './moduls/statistics_company/statistics_company.route.ts'
 
 const routes = Router()
 
@@ -43,5 +44,6 @@ routes.use(history)
 routes.use(statisticsBranch)
 routes.use(statisticsEmployee)
 routes.use(statisticsProducts)
+routes.use(statisticsCompany)
 
 export default routes

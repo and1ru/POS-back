@@ -2,13 +2,11 @@ import { timeHelper } from "../../helper/time";
 import { statisticsProductsRepositoryAdmin, statisticsProductsRepositoryOwner } from "./statistics_products.repository";
 import type { statisticsProductsDB } from "./statistics_products.schema";
 
-
 export class StatisticsProductsService {
     statisticsProducts = async (userId: number, role: string, companyId: number, time: string, branchId?: string, name?: string) => {
-        const finalBranchId = `${branchId ?? "%%"}`
-        const finalName = `${name ?? "%%"}`
+        const finalBranchId = `${branchId ?? "%"}`
+        const finalName = name ? `%${name}%` : `%`
         let dbResult: statisticsProductsDB[] = []
-
         const { groupDate, dateEnd, dateStart } = timeHelper(time)
 
         if (role === "owner") {
@@ -37,6 +35,6 @@ export class StatisticsProductsService {
             }
         }
 
-        return { chartData, keys: [...keys]}
+        return { chartData, keys:[...keys]}
     }
 }

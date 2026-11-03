@@ -34,6 +34,6 @@ export class StatisticsBranchService {
             }
         }
 
-        return { chartData, keys: [...keys]}
+        return { keys:[...keys], chartData}
     }
 }

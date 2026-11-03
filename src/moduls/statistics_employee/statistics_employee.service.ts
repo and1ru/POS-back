@@ -33,10 +33,7 @@ export class StatisticsEmployeeService {
                 lastRow[key] = employee.total
             }
         }
-
-        console.log(chartData)
-        console.log(keys)
         
-        return { chartData, keys }
+        return { chartData, keys: [...keys] }
     }
 }
