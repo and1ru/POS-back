@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { HireController } from "./Hire.controller";
 import { HireSerivce } from "./Hire.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
+import { authRole } from "../../middleware/authRole/authRole";
+import { authToken } from "../../middleware/authToken/authToken";
 
 const service = new HireSerivce()
 const controller = new HireController(service)

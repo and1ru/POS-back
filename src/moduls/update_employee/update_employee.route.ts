@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { UpdateEmployeeController } from "./update_employee.controller";
 import { UpdateEmployeeService } from "./update_employee.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
+import { authToken } from "../../middleware/authToken/authToken";
+import { authRole } from "../../middleware/authRole/authRole";
 
 const service = new UpdateEmployeeService()
 const controller = new UpdateEmployeeController(service)

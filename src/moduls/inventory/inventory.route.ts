@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { InventoryController } from "./inventory.controller";
 import { InventoryService } from "./inventory.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
+import { authToken } from "../../middleware/authToken/authToken";
 
 const service = new InventoryService()
 const controller = new InventoryController(service)

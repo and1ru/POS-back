@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { NewSaleController } from "./new_sale.controller";
 import { NewSaleService } from "./new_sale.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
+import { authToken } from "../../middleware/authToken/authToken";
+import { authRole } from "../../middleware/authRole/authRole";
 
 const service = new NewSaleService()
 const controller = new NewSaleController(service)

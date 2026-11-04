@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { UpdateProductController } from "./update_product.controller";
 import { UpdateProductService } from "./update_product.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
 import { uploadImage } from "../../middleware/imageMiddleware";
+import { authToken } from "../../middleware/authToken/authToken";
+import { authRole } from "../../middleware/authRole/authRole";
 
 const service = new UpdateProductService()
 const controller = new UpdateProductController(service)

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { HistoryController } from "./history.controller";
 import { HistoryService } from "./history.service";
-import { authToken } from "../../middleware/authToken";
+import { authToken } from "../../middleware/authToken/authToken";
 
 const service = new HistoryService()
 const controller = new HistoryController(service)

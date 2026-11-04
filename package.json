@@ -8,6 +8,7 @@
     "@types/luxon": "^3.7.6",
     "@types/multer": "^2.2.0",
     "multer": "^2.2.0",
+    "supertest": "^7.3.1",
     "tsx": "^4.23.12"
   },
   "scripts": {

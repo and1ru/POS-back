@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { CreateProductController } from "./create_branch_product.controller";
 import { CreateProductService } from "./create_branch_product.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
+import { authToken } from "../../middleware/authToken/authToken";
+import { authRole } from "../../middleware/authRole/authRole";
 
 const service = new CreateProductService();
 const controller = new CreateProductController(service);
