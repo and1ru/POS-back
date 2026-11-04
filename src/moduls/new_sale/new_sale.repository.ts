@@ -14,6 +14,15 @@ export const newSaleRepository = async (userId:number, totalPrice:number, date:s
         insert into sale_product (sale_id, branch_product_id,  price, quantity)
         values ${placeholder};
 
+        update branch_products bp
+        inner join sale_product sp on bp.id = sp.branch_product_id
+
+        set bp.stock = bp.stock - sp.quantity
+
+        where sp.sale_id = @saleId
+        AND bp.branch_id = @branchId
+        AND bp.stock >= sp.quantity;
+
         commit;
         `, [userId, userId, totalPrice, date, amountReceived, ...values])
 }

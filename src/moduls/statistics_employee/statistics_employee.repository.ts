@@ -20,7 +20,7 @@ export const statisticsEmployeeRepositoryOwner = async (groupDate:string, compan
             AND s.date between ? AND ?
             AND u.name like ?
         GROUP BY u.id, u.name, b.name, ${groupDate}
-        ORDER BY ${groupDate}
+        ORDER BY ${groupDate}, total DESC
         `,[companyId, branchId, start, end, name])
 
     return result

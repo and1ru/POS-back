@@ -15,7 +15,6 @@ export class StatisticsEmployeeController {
         try {
             const { time, branchId, name } = data.data
             const result = await this.service.statisticsEmployee(role, time, companyId, userId, name, branchId)
-            // console.log(result)
             return res.status(200).json({message:"got statistics employees", success:true, result})
         } catch (error) {
             return next(error)
