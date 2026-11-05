@@ -1,9 +1,4 @@
-import type { ResultSetHeader } from "mysql2"
 import { myDb } from "../../helper/pool"
-
-interface UserResponse extends ResultSetHeader {
-    insertId:number
-}
 
 export const hireByOwner = async (name:string, email:string, password:string, role:string, companyId:number, branchId:number, salary:number, date:string) => {
     await myDb.query(`

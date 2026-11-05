@@ -20,7 +20,7 @@ export class InventoryController {
             const result = await this.service.intentory(role, companyId, userId, productName, price, stock)
             return res.status(200).json({message:"got products", success:true, result})
         } catch (error) {
-            next(error)
+            return next(error)
         }
     }
 }

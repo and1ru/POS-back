@@ -1,15 +1,5 @@
-import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
-
-interface EmployeeResult extends RowDataPacket {
-    name:string
-    role:string
-    salary:number
-    branch_name:string
-    branch_id:number
-    date: Date
-    id:number
-}
+import type { EmployeeResult } from "./get_employee.schema"
 
 export const getEmployeeOwner = async (employeeId:number, companyId:number) => {
     const [result] = await myDb.query<EmployeeResult[]>(`

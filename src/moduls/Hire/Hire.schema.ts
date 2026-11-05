@@ -6,5 +6,5 @@ export const hireSchema = z.object({
     password: z.string().min(8, "Password must be at least 8 length"),
     salary: z.number().positive("Salary must be positive"),
     role: z.enum(["admin", "cashier"]),
-    branch: z.string()
+    branch: z.coerce.number().int().positive()
 })

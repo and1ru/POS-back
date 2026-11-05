@@ -15,7 +15,7 @@ export class GetEmployeeController {
             const result = await this.service.employee(Number(employeeId), companyId, role, userId)
             return res.status(200).json({ message:"got employee", success:true, result })
         } catch (error) {
-            next(error)
+            return next(error)
         }
     }
 }

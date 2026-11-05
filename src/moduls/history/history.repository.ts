@@ -1,6 +1,6 @@
 import { myDb } from "../../helper/pool"
 
-export const historyCashier = async (userId:number, saleId:string, start:Date, end:Date) => {
+export const historyCashier = async (userId:number, saleId:string, start:string, end:string) => {
     const [result] = await myDb.query(`
         SELECT 
 	        s.id,
@@ -22,7 +22,7 @@ export const historyCashier = async (userId:number, saleId:string, start:Date, e
     return result
 }
 
-export const historyAdmin = async (userId:number, saleId:string, start:Date, end:Date) => {
+export const historyAdmin = async (userId:number, saleId:string, start:string, end:string) => {
     const [result] = await myDb.query(`
         SELECT 
 	        s.id,
@@ -44,7 +44,7 @@ export const historyAdmin = async (userId:number, saleId:string, start:Date, end
     return result
 }
 
-export const historyOwner = async (userId:number, saleId:string, start:Date, end:Date) => {
+export const historyOwner = async (userId:number, saleId:string, start:string, end:string) => {
     const [result] = await myDb.query(`
         select 
 	        s.id,
