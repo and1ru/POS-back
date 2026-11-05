@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import type { Payload } from '../types/jwt.payload'
-import { CustomError } from '../helper/cutomError'
+import { CustomError } from '../../helper/cutomError'
+import type { Payload } from '../../types/jwt.payload'
 
 export const authToken = (req:Request, _res:Response, next:NextFunction) => {
     const token = req.cookies.token

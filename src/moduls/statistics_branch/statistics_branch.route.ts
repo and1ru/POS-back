@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
 import { StatisticsBranchService } from "./statistics_branch.service";
 import { StatisticsBranchController } from "./statistics_branch.controller";
+import { authToken } from "../../middleware/authToken/authToken";
+import { authRole } from "../../middleware/authRole/authRole";
 
 const service = new StatisticsBranchService()
 const controller = new StatisticsBranchController(service)

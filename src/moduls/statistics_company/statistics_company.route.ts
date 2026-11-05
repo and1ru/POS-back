@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { StatisticsCompanyController } from "./statistics_company.controller";
 import { StatisticsCompanyService } from "./statistics_company.service";
-import { authToken } from "../../middleware/authToken";
-import { authRole } from "../../middleware/authRole";
+import { authRole } from "../../middleware/authRole/authRole";
+import { authToken } from "../../middleware/authToken/authToken";
 
 const service = new StatisticsCompanyService()
 const controller = new StatisticsCompanyController(service)

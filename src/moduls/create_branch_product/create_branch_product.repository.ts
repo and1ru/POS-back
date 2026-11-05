@@ -7,7 +7,7 @@ interface BranchResult extends RowDataPacket {
 
 export const findBranchId = async (userId:number) => {
     const [result] = await myDb.query<BranchResult[]>("SELECT branch_id FROM employees WHERE user_id=?",[userId])
-    return result
+    return result[0]
 }
 
 interface ProductResult extends RowDataPacket {

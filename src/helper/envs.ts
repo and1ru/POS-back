@@ -6,7 +6,7 @@ export const envs = {
     db_host: process.env.DB_HOST,
     db_user: process.env.DB_USER,
     db_password: process.env.DB_PASSWORD,
-    db_name: process.env.DB_NAME,
+    db_name: process.env.APP_STATE === "dev" ? process.env.DB_TEST_NAME : process.env.DB_NAME ,
     db_port: Number(process.env.DB_PORT),
 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

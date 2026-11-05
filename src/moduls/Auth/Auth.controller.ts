@@ -8,7 +8,7 @@ export class AuthController{
         
         try {
             const result = await this.service.auth(userId)
-            return res.status(200).json({message:"authenticado", success:true, result})
+            return res.status(200).json({message:"authenticated", success:true, result})
         } catch (error) {
             return next(error)
         }
