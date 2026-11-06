@@ -7,7 +7,7 @@ interface ProductResult extends RowDataPacket {
 
 export const findBranchProductById = async (productId:number) => {
     const [result] = await myDb.query<ProductResult[]>("SELECT id from branch_products WHERE id=?",[productId])
-    return result
+    return result[0]
 }
 
 export const updatedBranchProduct = async (boughtPriceProduct:number, currentStock:number, minStock:number, productId:number, sellPriceProduct:number, userId:number) => {
