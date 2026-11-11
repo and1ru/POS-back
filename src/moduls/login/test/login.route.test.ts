@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
-import app from "../../app";
-import { myDb } from "../../helper/pool";
-import { hashPassword } from "../../helper/hashPassword";
+import { hashPassword } from "../../../helper/hashPassword";
+import { myDb } from "../../../helper/pool";
+import { app } from "../../../app";
 
 describe("Route POST /login", () => {
     const email = "user@test.com";

@@ -1,8 +1,8 @@
-
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { CreateCompanyRepository, findUserByEmail } from '../create_company.repository'
 import { CreateCompanyService } from '../create_company.service'
 import { hashPassword } from '../../../helper/hashPassword'
+import { CustomError } from '../../../helper/cutomError'
 
 vi.mock("../create_company.repository")
 
@@ -103,7 +103,7 @@ describe("Service POST /company", () => {
     })
 
     it("should propagate CreateCompanyRepository errors", async () => {
-        const error = new Error("Database error")
+        const error = new CustomError(400, "Database error")
 
         vi.mocked(findUserByEmail).mockResolvedValue({email: "test@gmail.com"} as any)
         vi.mocked(hashPassword).mockResolvedValue("hashed-password")

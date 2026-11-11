@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
-import app from "../../app";
-import { myDb } from "../../helper/pool";
-import { generateTokenTest, tokenTest } from "../helpers/tokenTest";
+import { generateTokenTest } from "../../../helper/generateTokenTest";
+import { myDb } from "../../../helper/pool";
+import { app } from "../../../app";
+import { tokenTest } from "../../../helper/tokenTest";
 
 describe("Route PUT /branch-product", () => {
     const adminToken = generateTokenTest(1, "admin", 1);
@@ -78,7 +79,7 @@ describe("Route PUT /branch-product", () => {
         it("should update a product from the admin branch", async () => {
             const response = await request(app)
                 .put("/branch-product")
-                .set("Authorization", `Bearer ${adminToken}`)
+                .set("Cookie", adminToken)
                 .send(validBody);
 
             expect(response.status).toBe(200);
@@ -113,7 +114,7 @@ describe("Route PUT /branch-product", () => {
         it("should accept decimal values for product prices", async () => {
             const response = await request(app)
                 .put("/branch-product")
-                .set("Authorization", `Bearer ${adminToken}`)
+                .set("Cookie", adminToken)
                 .send({
                     ...validBody,
                     boughtPriceProduct: 120.5,
@@ -140,7 +141,7 @@ describe("Route PUT /branch-product", () => {
         it("should return 404 if the branch product does not exist", async () => {
             const response = await request(app)
                 .put("/branch-product")
-                .set("Authorization", `Bearer ${adminToken}`)
+                .set("Cookie", adminToken)
                 .send({
                     ...validBody,
                     productId: 999
@@ -153,7 +154,7 @@ describe("Route PUT /branch-product", () => {
         it("should not update a product from another branch", async () => {
             const response = await request(app)
                 .put("/branch-product")
-                .set("Authorization", `Bearer ${adminToken}`)
+                .set("Cookie",adminToken)
                 .send({
                     ...validBody,
                     productId: 2
@@ -266,7 +267,7 @@ describe("Route PUT /branch-product", () => {
             async ({ body }) => {
                 const response = await request(app)
                     .put("/branch-product")
-                    .set("Authorization", `Bearer ${adminToken}`)
+                    .set("Cookie", adminToken)
                     .send(body);
 
                 expect(response.status).toBe(400);
@@ -285,7 +286,7 @@ describe("Route PUT /branch-product", () => {
 
             const response = await request(app)
                 .put("/branch-product")
-                .set("Authorization", `Bearer ${adminToken}`)
+                .set("Cookie", adminToken)
                 .send(body);
 
             expect(response.status).toBe(400);
@@ -302,7 +303,7 @@ describe("Route PUT /branch-product", () => {
 
             const response = await request(app)
                 .put("/branch-product")
-                .set("Authorization", `Bearer ${token}`)
+                .set("Cookie", token)
                 .send(validBody);
 
             expect(response.status).toBe(403);

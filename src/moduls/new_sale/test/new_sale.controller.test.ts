@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { NewSaleController } from "./new_sale.controller";
-import type { NewSaleService } from "./new_sale.service";
+import type { NewSaleService } from "../new_sale.service";
+import { NewSaleController } from "../new_sale.controller";
 
 describe("Controller newSale POST /sale", () => {
     let req: Request;

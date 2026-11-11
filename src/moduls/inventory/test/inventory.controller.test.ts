@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { InventoryController } from "./inventory.controller";
-import type { InventoryService } from "./inventory.service";
+import type { InventoryService } from "../inventory.service";
+import { InventoryController } from "../inventory.controller";
 
 describe("Controller inventory GET /inventory", () => {
     let req: Request;

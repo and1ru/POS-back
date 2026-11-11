@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { myDb } from "../../helper/pool";
-import { loginRepository } from "./login.repository";
+import { myDb } from "../../../helper/pool";
+import { loginRepository } from "../login.repository";
 
-vi.mock("../../helper/pool", () => ({
+vi.mock("../../../helper/pool", () => ({
     myDb: {
         query: vi.fn()
     }

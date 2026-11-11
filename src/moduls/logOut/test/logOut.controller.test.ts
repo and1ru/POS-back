@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { LogOutController } from "./logOut.controller";
+import { LogOutController } from "../logOut.controller";
 
 describe("Controller logOut POST /logOut", () => {
     let req: Request;

@@ -19,7 +19,6 @@ describe("Route POST /company", () => {
     beforeEach(async () => {
         await myDb.query(`
             START TRANSACTION;
-
             INSERT INTO companies (name, date)
             VALUES ("root company", "2000-01-01");
 

@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { UpdateProductController } from "./update_branch_product.controller";
-import type { UpdateProductService } from "./update_branch_product.service";
+import type { UpdateProductService } from "../../update_product/update_product.service";
+import { UpdateProductController } from "../update_branch_product.controller";
 
 describe("Controller updateProduct PUT /branch-product", () => {
     let req: Request;

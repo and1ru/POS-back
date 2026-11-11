@@ -4,15 +4,15 @@ import { hashPassword } from "../../../helper/hashPassword";
 import { findUserByEmail } from "../../create_company/create_company.repository";
 import { hireByAdmin, hireByOwner } from "../Hire.repository";
 
-vi.mock("../../helper/hashPassword", () => ({
+vi.mock("../../../helper/hashPassword", () => ({
     hashPassword: vi.fn()
 }));
 
-vi.mock("../create_company/create_company.repository", () => ({
+vi.mock("../../create_company/create_company.repository", () => ({
     findUserByEmail: vi.fn()
 }));
 
-vi.mock("./Hire.repository", () => ({
+vi.mock("../Hire.repository", () => ({
     hireByAdmin: vi.fn(),
     hireByOwner: vi.fn()
 }));

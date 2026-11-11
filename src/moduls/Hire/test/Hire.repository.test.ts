@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { hireByAdmin, hireByOwner } from "../Hire.repository";
 import { myDb } from "../../../helper/pool";
 
-vi.mock("../../helper/pool", () => ({
+vi.mock("../../../helper/pool", () => ({
     myDb: {
         query: vi.fn()
     }

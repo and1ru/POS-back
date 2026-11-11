@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { comparePassword } from "../../helper/comparePassword";
-import { generateToken } from "../../helper/generateToken";
-import { loginRepository } from "./login.repository";
-import { LoginService } from "./login.service";
+import { LoginService } from "../login.service";
+import { loginRepository } from "../login.repository";
+import { comparePassword } from "../../../helper/comparePassword";
+import { generateToken } from "../../../helper/generateToken";
 
-vi.mock("../../helper/comparePassword", () => ({
+vi.mock("../../../helper/comparePassword", () => ({
     comparePassword: vi.fn()
 }));
 
-vi.mock("../../helper/generateToken", () => ({
+vi.mock("../../../helper/generateToken", () => ({
     generateToken: vi.fn()
 }));
 
-vi.mock("./login.repository", () => ({
+vi.mock("../login.repository", () => ({
     loginRepository: vi.fn()
 }));
 

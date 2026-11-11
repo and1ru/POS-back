@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { EmployeesService } from "../get_employees.service";
 import { employeesAdmin, employeesOwner } from "../get_employees.repository";
 
-vi.mock("./get_employees.repository", () => ({
+vi.mock("../get_employees.repository", () => ({
     employeesAdmin: vi.fn(),
     employeesOwner: vi.fn()
 }));

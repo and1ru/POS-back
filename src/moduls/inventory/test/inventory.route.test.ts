@@ -1,15 +1,16 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
-import app from "../../app";
-import { myDb } from "../../helper/pool";
-import { generateTokenTest, tokenTest } from "../helpers/tokenTest";
+import { generateTokenTest } from "../../../helper/generateTokenTest";
+import { myDb } from "../../../helper/pool";
+import { app } from "../../../app";
+import { tokenTest } from "../../../helper/tokenTest";
 
 describe("Route GET /inventory", () => {
     const ownerToken = generateTokenTest(1, "owner", 1);
     const adminToken = generateTokenTest(2, "admin", 1);
     const cashierToken = generateTokenTest(3, "cashier", 1);
 
-    beforeEach(async () => {
+    beforeAll(async () => {
         await myDb.query(`
             START TRANSACTION;
 
@@ -56,7 +57,7 @@ describe("Route GET /inventory", () => {
         `);
     });
 
-    afterEach(async () => {
+    afterAll(async () => {
         await myDb.query(`
             SET FOREIGN_KEY_CHECKS = 0;
 

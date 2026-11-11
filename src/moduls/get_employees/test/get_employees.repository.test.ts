@@ -3,7 +3,7 @@ import { myDb } from "../../../helper/pool";
 import { employeesAdmin, employeesOwner } from "../get_employees.repository";
 
 
-vi.mock("../../helper/pool", () => ({
+vi.mock("../../../helper/pool", () => ({
     myDb: {
         query: vi.fn()
     }

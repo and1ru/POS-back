@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
-import app from "../../app";
+import { app } from "../../../app";
 
 describe("Route POST /logOut", () => {
     it("should logout successfully and clear the token cookie", async () => {

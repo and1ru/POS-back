@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { newSaleRepository } from "./new_sale.repository";
-import type { productType } from "./new_sale.schema";
-import { NewSaleService } from "./new_sale.service";
+import { NewSaleService } from "../new_sale.service";
+import type { productType } from "../new_sale.schema";
+import { newSaleRepository } from "../new_sale.repository";
 
-vi.mock("./new_sale.repository", () => ({
+vi.mock("../new_sale.repository", () => ({
     newSaleRepository: vi.fn()
 }));
 

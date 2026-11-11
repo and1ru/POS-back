@@ -1,17 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import {
-    findBranchProductById,
-    updatedBranchProduct
-} from "./update_branch_product.repository";
-import { UpdateProductService } from "./update_branch_product.service";
+import { findBranchProductById, updatedBranchProduct } from "../update_branch_product.repository";
+import { UpdateBranchProductService } from "../update_branch_product.service";
 
-vi.mock("./update_branch_product.repository", () => ({
+vi.mock("../update_branch_product.repository", () => ({
     findBranchProductById: vi.fn(),
     updatedBranchProduct: vi.fn()
 }));
 
 describe("Service updateProduct PUT /branch-product", () => {
-    let service: UpdateProductService;
+    let service: UpdateBranchProductService;
 
     const productData = {
         boughtPriceProduct: 100,
@@ -25,14 +22,14 @@ describe("Service updateProduct PUT /branch-product", () => {
     beforeEach(() => {
         vi.clearAllMocks();
 
-        service = new UpdateProductService();
+        service = new UpdateBranchProductService();
     });
 
     it("should update a branch product successfully", async () => {
         vi.mocked(findBranchProductById).mockResolvedValue({ id: 1 } as any);
         vi.mocked(updatedBranchProduct).mockResolvedValue(undefined);
 
-        await service.updateProduct(
+        await service.updateBranchProduct(
             productData.boughtPriceProduct,
             productData.currentStock,
             productData.minStock,
@@ -59,7 +56,7 @@ describe("Service updateProduct PUT /branch-product", () => {
         vi.mocked(findBranchProductById).mockResolvedValue(undefined as any);
 
         await expect(
-            service.updateProduct(
+            service.updateBranchProduct(
                 productData.boughtPriceProduct,
                 productData.currentStock,
                 productData.minStock,
@@ -78,7 +75,7 @@ describe("Service updateProduct PUT /branch-product", () => {
         vi.mocked(findBranchProductById).mockRejectedValue(error);
 
         await expect(
-            service.updateProduct(
+            service.updateBranchProduct(
                 productData.boughtPriceProduct,
                 productData.currentStock,
                 productData.minStock,
@@ -98,7 +95,7 @@ describe("Service updateProduct PUT /branch-product", () => {
         vi.mocked(updatedBranchProduct).mockRejectedValue(error);
 
         await expect(
-            service.updateProduct(
+            service.updateBranchProduct(
                 productData.boughtPriceProduct,
                 productData.currentStock,
                 productData.minStock,

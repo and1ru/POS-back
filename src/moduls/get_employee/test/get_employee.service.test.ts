@@ -3,7 +3,7 @@ import { GetEmployeeService } from "../get_employee.service";
 import { getEmployeeAdmin, getEmployeeOwner } from "../get_employee.repository";
 import type { EmployeeResult } from "../get_employee.schema";
 
-vi.mock("./get_employee.repository", () => ({
+vi.mock("../get_employee.repository", () => ({
     getEmployeeAdmin: vi.fn(),
     getEmployeeOwner: vi.fn()
 }));

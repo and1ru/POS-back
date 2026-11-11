@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import request from "supertest";
-import app from "../../app";
-import { myDb } from "../../helper/pool";
-import { generateTokenTest, tokenTest } from "../helpers/tokenTest";
+import { generateTokenTest } from "../../../helper/generateTokenTest";
+import { myDb } from "../../../helper/pool";
+import { app } from "../../../app";
+import { tokenTest } from "../../../helper/tokenTest";
 
 describe("Route POST /sale", () => {
     const cashierToken = generateTokenTest(1, "cashier", 1);

@@ -1,11 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { myDb } from "../../helper/pool";
-import {
-    findBranchProductById,
-    updatedBranchProduct
-} from "./update_branch_product.repository";
+import { myDb } from "../../../helper/pool";
+import { findBranchProductById, updatedBranchProduct } from "../update_branch_product.repository";
 
-vi.mock("../../helper/pool", () => ({
+
+vi.mock("../../../helper/pool", () => ({
     myDb: {
         query: vi.fn()
     }

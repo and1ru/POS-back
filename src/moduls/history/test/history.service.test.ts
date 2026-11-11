@@ -3,11 +3,11 @@ import { HistoryService } from "../history.service";
 import { timeHelper } from "../../../helper/time";
 import { historyAdmin, historyCashier, historyOwner } from "../history.repository";
 
-vi.mock("../../helper/time", () => ({
+vi.mock("../../../helper/time", () => ({
     timeHelper: vi.fn()
 }));
 
-vi.mock("./history.repository", () => ({
+vi.mock("../history.repository", () => ({
     historyAdmin: vi.fn(),
     historyCashier: vi.fn(),
     historyOwner: vi.fn()
