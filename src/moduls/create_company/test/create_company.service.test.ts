@@ -87,7 +87,7 @@ describe("Service POST /company", () => {
     })
 
     it("should propagate hashPassword errors", async () => {
-        const error = new Error("Password hashing error")
+        const error = new CustomError(400, "credentials error")
 
         vi.mocked(findUserByEmail).mockResolvedValue({email: "test@gmail.com"} as any)
         vi.mocked(hashPassword).mockRejectedValue(error)
@@ -103,7 +103,7 @@ describe("Service POST /company", () => {
     })
 
     it("should propagate CreateCompanyRepository errors", async () => {
-        const error = new CustomError(400, "Database error")
+        const error = new CustomError(400, "credentials error")
 
         vi.mocked(findUserByEmail).mockResolvedValue({email: "test@gmail.com"} as any)
         vi.mocked(hashPassword).mockResolvedValue("hashed-password")

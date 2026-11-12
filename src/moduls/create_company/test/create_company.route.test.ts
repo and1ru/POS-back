@@ -1,7 +1,5 @@
-
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import request from 'supertest'
-import type { RowDataPacket } from 'mysql2'
 import { app } from '../../../app'
 import { generateTokenTest } from '../../../helper/generateTokenTest'
 import { myDb } from '../../../helper/pool'
@@ -19,6 +17,7 @@ describe("Route POST /company", () => {
     beforeEach(async () => {
         await myDb.query(`
             START TRANSACTION;
+
             INSERT INTO companies (name, date)
             VALUES ("root company", "2000-01-01");
 
@@ -27,7 +26,8 @@ describe("Route POST /company", () => {
             INSERT INTO users
                 (name, email, password, role, company_id)
             VALUES
-                ("Owner", "owner@test.com", "test-password", "owner", @company_id),
+                ("Owner", "owner@test.com", "test-password", "owner", @company_id);
+                
             COMMIT;
         `)
     })
@@ -63,7 +63,7 @@ describe("Route POST /company", () => {
             .set("Cookie", generateTokenTest(1, "root", 1))
             .send({
                 ...body,
-                email: "root@test.com"
+                email: "owner@test.com"
             })
 
         expect(response.status).toBe(400)
@@ -106,8 +106,6 @@ describe("Route POST /company", () => {
 
     })
 
-    // companyName
-
     it("should return 400 when companyName is empty", async () => {
         const response = await request(app)
             .post("/company")
@@ -134,8 +132,6 @@ describe("Route POST /company", () => {
 
         expect(response.status).toBe(400)
     })
-
-    // ownerName
 
     it("should return 400 when ownerName is empty", async () => {
         const response = await request(app)
@@ -164,8 +160,6 @@ describe("Route POST /company", () => {
         expect(response.status).toBe(400)
     })
 
-    // email
-
     it("should return 400 when email is invalid", async () => {
         const response = await request(app)
             .post("/company")
@@ -193,16 +187,13 @@ describe("Route POST /company", () => {
         expect(response.status).toBe(400)
     })
 
-    // password
-
     it("should return 400 when password has less than 8 characters", async () => {
         const response = await request(app)
             .post("/company")
             .set("Cookie", generateTokenTest(1, "root", 1))
             .send({
                 ...body,
-                password: "1234567",
-                confirmPassword: "1234567"
+                password: "1234567"
             })
 
         expect(response.status).toBe(400)
@@ -225,8 +216,6 @@ describe("Route POST /company", () => {
 
         expect(response.status).toBe(400)
     })
-
-    // confirmPassword
 
     it("should return 400 when confirmPassword has less than 8 characters", async () => {
         const response = await request(app)
@@ -258,8 +247,6 @@ describe("Route POST /company", () => {
         expect(response.status).toBe(400)
     })
 
-    // refine
-
     it("should return 400 when passwords do not match", async () => {
         const response = await request(app)
             .post("/company")
@@ -271,19 +258,6 @@ describe("Route POST /company", () => {
             })
 
         expect(response.status).toBe(400)
-    })
-
-    it("should return 401 when there is no token", async () => {
-        const response = await request(app)
-            .post("/company")
-            .send(body)
-
-        expect(response.status).toBe(401)
-
-        expect(response.body).toEqual({
-            message: "no token",
-            success: false
-        })
     })
 
     tokenTest("/company", "post")

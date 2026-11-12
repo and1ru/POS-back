@@ -1,14 +1,14 @@
 import type { NextFunction, Request, Response } from "express";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { UpdateProductService } from "../../update_product/update_product.service";
-import { UpdateProductController } from "../update_branch_product.controller";
+import { UpdateBranchProductController } from "../update_branch_product.controller";
+import type { UpdateBranchProductService } from "../update_branch_product.service";
 
 describe("Controller updateProduct PUT /branch-product", () => {
     let req: Request;
     let res: Response;
     let next: NextFunction;
-    let service: UpdateProductService;
-    let controller: UpdateProductController;
+    let service: UpdateBranchProductService;
+    let controller: UpdateBranchProductController;
 
     const productData = {
         boughtPriceProduct: 100,
@@ -36,25 +36,18 @@ describe("Controller updateProduct PUT /branch-product", () => {
         next = vi.fn();
 
         service = {
-            updateProduct: vi.fn()
-        } as unknown as UpdateProductService;
+            updateBranchProduct: vi.fn()
+        } as UpdateBranchProductService;
 
-        controller = new UpdateProductController(service);
+        controller = new UpdateBranchProductController(service);
     });
 
     it("should update a branch product successfully", async () => {
-        vi.mocked(service.updateProduct).mockResolvedValue(undefined);
+        vi.mocked(service.updateBranchProduct).mockResolvedValue(undefined);
 
-        await controller.updateProduct(req, res, next);
+        await controller.updateBranchProduct(req, res, next);
 
-        expect(service.updateProduct).toHaveBeenCalledWith(
-            100,
-            20,
-            5,
-            1,
-            150,
-            2
-        );
+        expect(service.updateBranchProduct).toHaveBeenCalledWith(100, 20, 5, 1, 150, 2);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
@@ -68,18 +61,11 @@ describe("Controller updateProduct PUT /branch-product", () => {
     it("should call next if the service throws an error", async () => {
         const error = new Error("database error");
 
-        vi.mocked(service.updateProduct).mockRejectedValue(error);
+        vi.mocked(service.updateBranchProduct).mockRejectedValue(error);
 
-        await controller.updateProduct(req, res, next);
+        await controller.updateBranchProduct(req, res, next);
 
-        expect(service.updateProduct).toHaveBeenCalledWith(
-            100,
-            20,
-            5,
-            1,
-            150,
-            2
-        );
+        expect(service.updateBranchProduct).toHaveBeenCalledWith(100, 20, 5, 1, 150, 2);
 
         expect(next).toHaveBeenCalledWith(error);
         expect(res.status).not.toHaveBeenCalled();

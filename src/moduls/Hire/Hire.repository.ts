@@ -1,4 +1,20 @@
+import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
+
+interface findBranchByIdResult extends RowDataPacket {
+
+}
+
+export const findBranchById = async (branchId:number, companyId:number) => {
+    const [result] = await myDb.query<findBranchByIdResult[]>(`
+            select name
+            from branches 
+            where id = ?
+            AND company_id = ?
+        `,[branchId, companyId])
+
+    return result[0]
+}
 
 export const hireByOwner = async (name:string, email:string, password:string, role:string, companyId:number, branchId:number, salary:number, date:string) => {
     await myDb.query(`

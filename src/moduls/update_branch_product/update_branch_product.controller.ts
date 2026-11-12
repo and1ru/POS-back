@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 import type { UpdateBranchProductService } from "./update_branch_product.service";
 
-export class UpdateProductController {
+export class UpdateBranchProductController {
     constructor(private service:UpdateBranchProductService){}
-    updateProduct = async (req:Request, res:Response, next:NextFunction) => {
+    updateBranchProduct = async (req:Request, res:Response, next:NextFunction) => {
         const { boughtPriceProduct, currentStock, minStock, productId, sellPriceProduct } = req.body
         const { userId } = req.user
 

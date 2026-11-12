@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import request from 'supertest'
 import { app } from '../../../app'
 import { generateTokenTest } from '../../../helper/generateTokenTest'
@@ -6,8 +6,7 @@ import { myDb } from '../../../helper/pool'
 import { tokenTest } from '../../../helper/tokenTest'
 
 describe("Route GET /branch", () => {
-
-    beforeEach(async () => {
+    beforeAll(async () => {
         await myDb.query(`
             START TRANSACTION;
 
@@ -22,12 +21,11 @@ describe("Route GET /branch", () => {
                 ("Sucursal Centro", "Calle 10", "Medellin", 1),
                 ("Sucursal Norte", "Calle 20", "Bogota", 1),
                 ("Sucursal Sur", "Calle 30", "Cali", 2);
-
             COMMIT;
         `)
     })
 
-    afterEach(async () => {
+    afterAll(async () => {
         await myDb.query(`
             SET FOREIGN_KEY_CHECKS = 0;
 
@@ -65,7 +63,7 @@ describe("Route GET /branch", () => {
         })
     })
 
-    it("should return an empty array when company has no branches", async () => {
+    it("should return an empty array when company does not have branches", async () => {
         const response = await request(app)
             .get("/branch")
             .set("Cookie", generateTokenTest(1, "owner", 999))
@@ -111,6 +109,7 @@ describe("Route GET /branch", () => {
             .set("Cookie", generateTokenTest(1, "root", 1))
 
         expect(response.status).toBe(403)
+        expect(response.body).toEqual({message:"user no authorizated", success:false})
     })
 
     it("should return 403 when admin tries to get branches", async () => {
@@ -119,6 +118,7 @@ describe("Route GET /branch", () => {
             .set("Cookie", generateTokenTest(1, "admin", 1))
 
         expect(response.status).toBe(403)
+        expect(response.body).toEqual({message:"user no authorizated", success:false})
     })
 
     it("should return 403 when cashier tries to get branches", async () => {
@@ -127,6 +127,7 @@ describe("Route GET /branch", () => {
             .set("Cookie", generateTokenTest(1, "cashier", 1))
 
         expect(response.status).toBe(403)
+        expect(response.body).toEqual({message:"user no authorizated", success:false})
     })
 
     tokenTest("/branch", "get")

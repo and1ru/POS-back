@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { myDb } from "../../../helper/pool";
 import { generateTokenTest } from "../../../helper/generateTokenTest";
@@ -6,7 +6,7 @@ import { app } from "../../../app";
 import { tokenTest } from "../../../helper/tokenTest";
 
 describe("Route GET /employees", () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         await myDb.query(`
             START TRANSACTION;
 
@@ -45,7 +45,7 @@ describe("Route GET /employees", () => {
         `);
     });
 
-    afterEach(async () => {
+    afterAll(async () => {
         await myDb.query(`
             SET FOREIGN_KEY_CHECKS = 0;
 
@@ -60,15 +60,13 @@ describe("Route GET /employees", () => {
 
     describe("successful requests", () => {
         it("should allow an owner to get employees from their company", async () => {
-            const token = generateTokenTest(1, "owner", 1);
-
             const response = await request(app)
                 .get("/employees")
                 .query({
                     employeeName: "Ana",
                     employeeRole: "cashier"
                 })
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("got employees");
@@ -101,14 +99,12 @@ describe("Route GET /employees", () => {
         });
 
         it("should allow an admin to get cashiers from their own branch", async () => {
-            const token = generateTokenTest(2, "admin", 1);
-
             const response = await request(app)
                 .get("/employees")
                 .query({
                     employeeName: "Ana"
                 })
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(2, "admin", 1));
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("got employees");
@@ -127,8 +123,6 @@ describe("Route GET /employees", () => {
 
     describe("filters and isolation", () => {
         it("should filter owner employees by branch ID exactly", async () => {
-            const token = generateTokenTest(1, "owner", 1);
-
             const response = await request(app)
                 .get("/employees")
                 .query({
@@ -136,7 +130,7 @@ describe("Route GET /employees", () => {
                     employeeRole: "cashier",
                     employeeBranch: "1"
                 })
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
 
@@ -149,29 +143,25 @@ describe("Route GET /employees", () => {
         });
 
         it("should not allow an admin to get employees from another branch", async () => {
-            const token = generateTokenTest(2, "admin", 1);
-
             const response = await request(app)
                 .get("/employees")
                 .query({
                     employeeName: "Maria"
                 })
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(2, "admin", 1));
 
             expect(response.status).toBe(200);
             expect(response.body.result).toEqual([]);
         });
 
         it("should not return employees from another company to an owner", async () => {
-            const token = generateTokenTest(1, "owner", 1);
-
             const response = await request(app)
                 .get("/employees")
                 .query({
                     employeeName: "Ana",
                     employeeRole: "cashier"
                 })
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
             expect(response.body.result).toHaveLength(2);
@@ -189,11 +179,9 @@ describe("Route GET /employees", () => {
 
     describe("invalid query parameters", () => {
         it("should return 400 if employeeName is repeated", async () => {
-            const token = generateTokenTest(1, "owner", 1);
-
             const response = await request(app)
                 .get("/employees?employeeName=Ana&employeeName=Carlos")
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(400);
             expect(response.body).toEqual({
@@ -203,11 +191,9 @@ describe("Route GET /employees", () => {
         });
 
         it("should return 400 if employeeRole is repeated", async () => {
-            const token = generateTokenTest(1, "owner", 1);
-
             const response = await request(app)
                 .get("/employees?employeeRole=cashier&employeeRole=admin")
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(400);
             expect(response.body).toEqual({
@@ -217,11 +203,9 @@ describe("Route GET /employees", () => {
         });
 
         it("should return 400 if employeeBranch is repeated", async () => {
-            const token = generateTokenTest(1, "owner", 1);
-
             const response = await request(app)
                 .get("/employees?employeeBranch=1&employeeBranch=10")
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(400);
             expect(response.body).toEqual({
@@ -236,11 +220,9 @@ describe("Route GET /employees", () => {
             { userId: 3, role: "root" as const },
             { userId: 4, role: "cashier" as const }
         ])("should return 403 for role $role", async ({ userId, role }) => {
-            const token = generateTokenTest(userId, role, 1);
-
             const response = await request(app)
                 .get("/employees")
-                .set("Authorization", `Bearer ${token}`);
+                .set("Cookie", generateTokenTest(userId, role, 1));
 
             expect(response.status).toBe(403);
         });

@@ -6,7 +6,6 @@ import { app } from "../../../app";
 import { tokenTest } from "../../../helper/tokenTest";
 
 describe("Route GET /inventory", () => {
-    const ownerToken = generateTokenTest(1, "owner", 1);
     const adminToken = generateTokenTest(2, "admin", 1);
     const cashierToken = generateTokenTest(3, "cashier", 1);
 
@@ -76,7 +75,7 @@ describe("Route GET /inventory", () => {
         it("should allow an owner to get products from their company", async () => {
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${ownerToken}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
             expect(response.body).toMatchObject({
@@ -99,7 +98,7 @@ describe("Route GET /inventory", () => {
                 .query({
                     productName: "Apple"
                 })
-                .set("Authorization", `Bearer ${ownerToken}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
 
@@ -122,7 +121,7 @@ describe("Route GET /inventory", () => {
         it("should allow an admin to get all company products with their branch inventory", async () => {
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${adminToken}`);
+                .set("Cookie", generateTokenTest(2, "admin", 1));
 
             expect(response.status).toBe(200);
             expect(response.body).toMatchObject({
@@ -158,7 +157,7 @@ describe("Route GET /inventory", () => {
                 .query({
                     stock: "desc"
                 })
-                .set("Authorization", `Bearer ${adminToken}`);
+                .set("Cookie", generateTokenTest(2, "admin", 1));
 
             expect(response.status).toBe(200);
 
@@ -175,7 +174,7 @@ describe("Route GET /inventory", () => {
                 .query({
                     price: "desc"
                 })
-                .set("Authorization", `Bearer ${adminToken}`);
+                .set("Cookie", generateTokenTest(2, "admin", 1));
 
             expect(response.status).toBe(200);
 
@@ -189,7 +188,7 @@ describe("Route GET /inventory", () => {
         it("should allow a cashier to get products from their own branch", async () => {
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${cashierToken}`);
+                .set("Cookie", generateTokenTest(3, "cashier", 1));
 
             expect(response.status).toBe(200);
             expect(response.body).toMatchObject({
@@ -212,7 +211,7 @@ describe("Route GET /inventory", () => {
                 .query({
                     productName: "Banana"
                 })
-                .set("Authorization", `Bearer ${cashierToken}`);
+                .set("Cookie", generateTokenTest(3, "cashier", 1));
 
             expect(response.status).toBe(200);
             expect(response.body.result).toHaveLength(1);
@@ -228,7 +227,7 @@ describe("Route GET /inventory", () => {
         it("should not return products from another company to an owner", async () => {
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${ownerToken}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
 
@@ -240,7 +239,7 @@ describe("Route GET /inventory", () => {
         it("should not return products from another company to an admin", async () => {
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${adminToken}`);
+                .set("Cookie", generateTokenTest(2, "admin", 1));
 
             expect(response.status).toBe(200);
 
@@ -252,7 +251,7 @@ describe("Route GET /inventory", () => {
         it("should not return products from another branch to a cashier", async () => {
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${cashierToken}`);
+                .set("Cookie",  generateTokenTest(3, "cashier", 1));
 
             expect(response.status).toBe(200);
 
@@ -269,7 +268,7 @@ describe("Route GET /inventory", () => {
                 .query({
                     productName: "Unknown Product"
                 })
-                .set("Authorization", `Bearer ${ownerToken}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(200);
             expect(response.body.result).toEqual([]);
@@ -284,7 +283,7 @@ describe("Route GET /inventory", () => {
         ] as const)("should return 400 if %s is repeated", async (parameter) => {
             const response = await request(app)
                 .get(`/inventory?${parameter}=value1&${parameter}=value2`)
-                .set("Authorization", `Bearer ${ownerToken}`);
+                .set("Cookie", generateTokenTest(1, "owner", 1));
 
             expect(response.status).toBe(400);
             expect(response.body).toEqual({
@@ -296,11 +295,9 @@ describe("Route GET /inventory", () => {
 
     describe("role authorization", () => {
         it("should return 403 for root", async () => {
-            const rootToken = generateTokenTest(4, "root", 1);
-
             const response = await request(app)
                 .get("/inventory")
-                .set("Authorization", `Bearer ${rootToken}`);
+                .set("Cookie", generateTokenTest(4, "root", 1));
 
             expect(response.status).toBe(403);
         });

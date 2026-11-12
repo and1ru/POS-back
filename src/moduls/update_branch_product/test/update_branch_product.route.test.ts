@@ -7,7 +7,6 @@ import { tokenTest } from "../../../helper/tokenTest";
 
 describe("Route PUT /branch-product", () => {
     const adminToken = generateTokenTest(1, "admin", 1);
-
     const validBody = {
         boughtPriceProduct: 120,
         currentStock: 20,
@@ -20,28 +19,26 @@ describe("Route PUT /branch-product", () => {
         await myDb.query(`
             START TRANSACTION;
 
-            INSERT INTO companies (id, name, date)
+            INSERT INTO companies (name, date)
             VALUES
-                (1, 'Company One', '2026-11-05'),
-                (2, 'Company Two', '2026-11-05');
+                ('Company One', '2026-11-05'),
+                ('Company Two', '2026-11-05');
 
-            INSERT INTO branches (id, name, address, city, company_id)
+            INSERT INTO branches (name, address, city, company_id)
             VALUES
-                (1, 'Branch One', 'Address One', 'Medellin', 1),
-                (2, 'Branch Two', 'Address Two', 'Medellin', 1),
-                (3, 'Branch Three', 'Address Three', 'Bogota', 2);
+                ('Branch One', 'Address One', 'Medellin', 1),
+                ('Branch Two', 'Address Two', 'Medellin', 1),
+                ('Branch Three', 'Address Three', 'Bogota', 2);
 
-            INSERT INTO users (id, name, email, password, role, company_id)
+            INSERT INTO users (name, email, password, role, company_id)
             VALUES
-                (1, 'Admin One', 'admin@test.com', 'password', 'admin', 1),
-                (2, 'Owner One', 'owner@test.com', 'password', 'owner', 1),
-                (3, 'Cashier One', 'cashier@test.com', 'password', 'cashier', 1),
-                (4, 'Root One', 'root@test.com', 'password', 'root', 1);
+                ('Admin One', 'admin@test.com', 'password', 'admin', 1),
+                ('Admin One', 'admin2@test.com', 'password', 'admin', 1)
 
             INSERT INTO employees (user_id, branch_id, date, salary)
             VALUES
                 (1, 1, '2026-11-05', 2000),
-                (3, 1, '2026-11-05', 1500);
+                (2, 2, '2026-11-05', 1500);
 
             INSERT INTO products (id, name, image_url, company_id)
             VALUES

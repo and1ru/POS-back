@@ -11,3 +11,5 @@ app.use(express.json())
 app.use(routes)
 
 app.use(errorMiddleware)
+
+// falta el test de create product

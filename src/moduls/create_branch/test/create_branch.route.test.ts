@@ -43,7 +43,6 @@ describe("Route POST /branch", () => {
             .send(body)
 
         expect(response.status).toBe(201)
-
         expect(response.body).toEqual({ message: "branch created", success: true })
     })
 
@@ -54,7 +53,6 @@ describe("Route POST /branch", () => {
             .send(body)
 
         expect(response.status).toBe(403)
-
         expect(response.body).toEqual({ message: "user no authorizated", success: false })
     })
 
@@ -65,7 +63,6 @@ describe("Route POST /branch", () => {
             .send(body)
 
         expect(response.status).toBe(403)
-
         expect(response.body).toEqual({ message: "user no authorizated", success: false })
     })
 
@@ -76,7 +73,6 @@ describe("Route POST /branch", () => {
             .send(body)
 
         expect(response.status).toBe(403)
-
         expect(response.body).toEqual({ message: "user no authorizated", success: false })
     })
 
