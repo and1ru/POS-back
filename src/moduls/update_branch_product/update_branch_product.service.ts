@@ -3,7 +3,7 @@ import { findBranchProductById, updatedBranchProduct } from "./update_branch_pro
 
 export class UpdateBranchProductService {
     updateBranchProduct = async (boughtPriceProduct:number, currentStock:number, minStock:number, productId:number, sellPriceProduct:number, userId:number) => {
-        const product = await findBranchProductById(productId)
+        const product = await findBranchProductById(productId, userId)
         if(!product){
             throw new CustomError(404, "no product branch")
         }

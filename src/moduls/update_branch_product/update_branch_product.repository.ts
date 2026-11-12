@@ -5,8 +5,15 @@ interface ProductResult extends RowDataPacket {
     id:number
 }
 
-export const findBranchProductById = async (productId:number) => {
-    const [result] = await myDb.query<ProductResult[]>("SELECT id from branch_products WHERE id=?",[productId])
+export const findBranchProductById = async (productId:number, userId:number) => {
+    const [result] = await myDb.query<ProductResult[]>(`
+        SELECT 
+            id 
+        from branch_products 
+        WHERE id=?
+        AND branch_id = (select branch_id from employees where user_id = ?)
+        `,[productId, userId])
+
     return result[0]
 }
 
