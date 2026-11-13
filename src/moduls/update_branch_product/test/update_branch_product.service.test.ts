@@ -39,7 +39,7 @@ describe("Service updateProduct PUT /branch-product", () => {
         );
 
         expect(findBranchProductById).toHaveBeenCalledWith(
-            productData.productId
+            productData.productId, productData.userId
         );
 
         expect(updatedBranchProduct).toHaveBeenCalledWith(

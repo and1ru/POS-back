@@ -1,6 +1,10 @@
 import { newSaleRepository } from "./new_sale.repository";
 import type { productType } from "./new_sale.schema";
 
+// debe verificar que el branch product sea de la misma branch
+// debe verificar que hay un stock suficiente
+// no debe confiar en el precio que manda desde el front
+
 export class NewSaleService {
     newSale = async (products:productType[], userId:number, amountReceived:number) => {
         const placeholder = products.map(() => "(@saleId, ?, ?, ?)").join(", ")

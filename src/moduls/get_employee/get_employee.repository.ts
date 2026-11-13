@@ -32,7 +32,7 @@ export const getEmployeeAdmin = async (employeeId:number, userId:number) => {
             inner join employees on employees.user_id = users.id
             inner join branches on branches.id = employees.branch_id
             where users.id = ? and 
-            employees.branch_id = ( select branch_id from employees where user_id = ?)
+            employees.branch_id = ( select branch_id from employees where user_id = ? )
         `,[employeeId, userId])
 
     return result[0]

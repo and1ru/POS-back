@@ -9,7 +9,7 @@ export class CreateProductService {
         }
 
         const product = await findBranchProduct(productId, userId)
-        if (product.length > 0) {
+        if (product!.length > 0 ) {
             throw new CustomError(400, "product already exist")
         }
 

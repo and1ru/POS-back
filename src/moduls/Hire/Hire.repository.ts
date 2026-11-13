@@ -2,7 +2,7 @@ import type { RowDataPacket } from "mysql2"
 import { myDb } from "../../helper/pool"
 
 interface findBranchByIdResult extends RowDataPacket {
-
+    name: string
 }
 
 export const findBranchById = async (branchId:number, companyId:number) => {

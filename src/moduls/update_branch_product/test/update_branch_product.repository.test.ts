@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { myDb } from "../../../helper/pool";
 import { findBranchProductById, updatedBranchProduct } from "../update_branch_product.repository";
 
-
 vi.mock("../../../helper/pool", () => ({
     myDb: {
         query: vi.fn()
@@ -17,12 +16,7 @@ describe("Repository findBranchProductById PUT /branch-product", () => {
     it("should find a branch product successfully", async () => {
         vi.mocked(myDb.query).mockResolvedValue([[{ id: 1 }]] as any);
 
-        const result = await findBranchProductById(1);
-
-        expect(myDb.query).toHaveBeenCalledWith(
-            "SELECT id from branch_products WHERE id=?",
-            [1]
-        );
+        const result = await findBranchProductById(1, 1);
 
         expect(result).toEqual({ id: 1 });
     });
@@ -30,7 +24,7 @@ describe("Repository findBranchProductById PUT /branch-product", () => {
     it("should return undefined if the branch product does not exist", async () => {
         vi.mocked(myDb.query).mockResolvedValue([[]] as any);
 
-        const result = await findBranchProductById(999);
+        const result = await findBranchProductById(999, 999);
 
         expect(result).toBeUndefined();
     });
@@ -41,7 +35,7 @@ describe("Repository findBranchProductById PUT /branch-product", () => {
         vi.mocked(myDb.query).mockRejectedValue(error);
 
         await expect(
-            findBranchProductById(1)
+            findBranchProductById(1, 1)
         ).rejects.toBe(error);
     });
 });

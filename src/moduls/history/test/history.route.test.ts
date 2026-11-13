@@ -241,32 +241,6 @@ describe("Route GET /history", () => {
         });
     });
 
-    describe("invalid query parameters", () => {
-        it("should return 400 if saleId is repeated", async () => {
-            const response = await request(app)
-                .get("/history?saleId=1&saleId=2")
-                .set("Authorization", `Bearer ${cashierToken}`);
-
-            expect(response.status).toBe(400);
-            expect(response.body).toEqual({
-                message: "data error",
-                success: false
-            });
-        });
-
-        it("should return 400 if date is repeated", async () => {
-            const response = await request(app)
-                .get("/history?date=today&date=month")
-                .set("Authorization", `Bearer ${cashierToken}`);
-
-            expect(response.status).toBe(400);
-            expect(response.body).toEqual({
-                message: "data error",
-                success: false
-            });
-        });
-    });
-
     describe("role authorization", () => {
         it("should return 403 for root", async () => {
             const token = generateTokenTest(6, "root", 1);

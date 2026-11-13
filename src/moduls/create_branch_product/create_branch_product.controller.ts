@@ -11,7 +11,7 @@ export class CreateProductController {
       await this.service.createProduct(boughtPriceProduct, currentStock, minStock, sellPriceProduct, productId, userId);
       return res.status(201).json({ message: "product created", success: true });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   };
 }

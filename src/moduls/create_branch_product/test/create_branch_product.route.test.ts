@@ -29,6 +29,15 @@ describe("Route POST /branch-product", () => {
             VALUES
                 ("test name", "test address", "test city", 1);
 
+            INSERT INTO users (name, email, password, role, company_id)
+            VALUES
+                ('Owner One', 'owner@test.com', 'password', 'owner', 1),
+                ('Admin One', 'admin@test.com', 'password', 'admin', 1);
+
+            INSERT INTO employees (user_id, branch_id, date, salary)
+            VALUES
+                (2, 1, '2026-11-04', 2000);
+
             COMMIT;
         `)
     })
@@ -40,6 +49,8 @@ describe("Route POST /branch-product", () => {
             TRUNCATE TABLE companies;
             TRUNCATE TABLE branches;
             TRUNCATE TABLE products;
+            TRUNCATE TABLE users;
+            TRUNCATE TABLE employees;
 
             SET FOREIGN_KEY_CHECKS = 1;
         `)
@@ -48,7 +59,7 @@ describe("Route POST /branch-product", () => {
     it("should return 201", async () => {
         const response = await request(app)
             .post("/branch-product")
-            .set("Cookie", generateTokenTest(1, "admin", 1))
+            .set("Cookie", generateTokenTest(1, "admin", 2))
             .send(body)
         
         expect(response.status).toBe(201)

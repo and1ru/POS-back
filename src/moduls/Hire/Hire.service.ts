@@ -1,19 +1,17 @@
 import { CustomError } from "../../helper/cutomError"
 import { hashPassword } from "../../helper/hashPassword"
-import { findUserByEmail } from "../create_company/create_company.repository"
+import { findUserByEmail } from "../../shared/repositories/findUserByEmail.repository"
 import { findBranchById, hireByAdmin, hireByOwner } from "./Hire.repository"
-
-// validar que la branch pertenezca a la company
 
 export class HireSerivce {
     hire = async (name: string, email: string, password: string, role: string, companyId: number, branchId: number, salary:number, userRole:string, userId:number) => {
+        if(userRole === "admin" && role === "admin"){
+            throw new CustomError(403, "admin can not hire an admin")
+        }
+        
         const findBranchId = await findBranchById(branchId, companyId)
         if(!findBranchId){
             throw new CustomError(404, "did not find branch")
-        }
-        
-        if(userRole === "admin" && role === "admin"){
-            throw new CustomError(403, "admin can not hire an admin")
         }
         
         const user = await findUserByEmail(email)

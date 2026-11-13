@@ -104,7 +104,7 @@ describe("Route GET /employees", () => {
                 .query({
                     employeeName: "Ana"
                 })
-                .set("Cookie", generateTokenTest(2, "admin", 1));
+                .set("Cookie", generateTokenTest(1, "admin", 2));
 
             expect(response.status).toBe(200);
             expect(response.body.message).toBe("got employees");
@@ -134,12 +134,12 @@ describe("Route GET /employees", () => {
 
             expect(response.status).toBe(200);
 
-            expect(response.body.result).toHaveLength(1);
-            expect(response.body.result[0]).toMatchObject({
+            expect(response.body.result).toMatchObject([{
                 id: 4,
                 name: "Ana Lopez",
-                branch_name: "Branch One"
-            });
+                branch_name: "Branch One",
+                role: "cashier"
+            }]);
         });
 
         it("should not allow an admin to get employees from another branch", async () => {

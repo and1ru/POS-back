@@ -24,13 +24,13 @@ describe("Route GET /employee/:employeeId", () => {
 
             INSERT INTO users (name, email, password, role, company_id)
             VALUES
-                1('Owner One', 'owner@test.com', 'password', 'owner', 1),
-                2('Admin One', 'admin@test.com', 'password', 'admin', 1),
-                3('Root One', 'root@test.com', 'password', 'root', 1),
-                4('Cashier One', 'cashier@test.com', 'password', 'cashier', 1),
-                5('Employee Same Branch', 'employee1@test.com', 'password', 'cashier', 1),
-                6('Employee Other Branch', 'employee2@test.com', 'password', 'cashier', 1),
-                7('Employee Other Company', 'employee3@test.com', 'password', 'cashier', 2);
+                ('Owner One', 'owner@test.com', 'password', 'owner', 1),
+                ('Admin One', 'admin@test.com', 'password', 'admin', 1),
+                ('Root One', 'root@test.com', 'password', 'root', 1),
+                ('Cashier One', 'cashier@test.com', 'password', 'cashier', 1),
+                ('Employee Same Branch', 'employee1@test.com', 'password', 'cashier', 1),
+                ('Employee Other Branch', 'employee2@test.com', 'password', 'cashier', 1),
+                ('Employee Other Company', 'employee3@test.com', 'password', 'cashier', 2);
 
             INSERT INTO employees (user_id, branch_id, date, salary)
             VALUES
@@ -80,7 +80,7 @@ describe("Route GET /employee/:employeeId", () => {
     it("should allow an admin to get an employee from their own branch", async () => {
         const response = await request(app)
             .get("/employee/5")
-            .set("Cookie", generateTokenTest(2, "admin", 1));
+            .set("Cookie", generateTokenTest(1, "admin", 2));
 
         expect(response.status).toBe(200);
 

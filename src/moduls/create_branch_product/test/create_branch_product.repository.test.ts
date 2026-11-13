@@ -29,7 +29,7 @@ describe("Repository POST /branch-product", () => {
         it("should return branch id", async () => {
             const response = { branch_id: 1 }
 
-            vi.mocked(myDb.query).mockResolvedValue(response as any)
+            vi.mocked(myDb.query).mockResolvedValue([[response], []] as any)
 
             const result = await findBranchId(userId)
 

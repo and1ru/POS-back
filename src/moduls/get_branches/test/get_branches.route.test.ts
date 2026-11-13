@@ -13,7 +13,8 @@ describe("Route GET /branch", () => {
             INSERT INTO companies (name, date)
             VALUES
                 ("Company One", "2000-01-01"),
-                ("Company Two", "2000-01-01");
+                ("Company Two", "2000-01-01"),
+                ("Company Three", "2000-01-01");
 
             INSERT INTO branches
                 (name, address, city, company_id)
@@ -66,7 +67,7 @@ describe("Route GET /branch", () => {
     it("should return an empty array when company does not have branches", async () => {
         const response = await request(app)
             .get("/branch")
-            .set("Cookie", generateTokenTest(1, "owner", 999))
+            .set("Cookie", generateTokenTest(999, "owner", 50))
 
         expect(response.status).toBe(200)
 
@@ -80,7 +81,7 @@ describe("Route GET /branch", () => {
     it("should only return branches belonging to the authenticated company", async () => {
         const response = await request(app)
             .get("/branch")
-            .set("Cookie", generateTokenTest(1, "owner", 2))
+            .set("Cookie", generateTokenTest(2, "owner", 1))
 
         expect(response.status).toBe(200)
 

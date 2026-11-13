@@ -1,10 +1,12 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { CreateCompanyRepository, findUserByEmail } from '../create_company.repository'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { CreateCompanyRepository } from '../create_company.repository'
 import { CreateCompanyService } from '../create_company.service'
 import { hashPassword } from '../../../helper/hashPassword'
 import { CustomError } from '../../../helper/cutomError'
+import { findUserByEmail } from '../../../shared/repositories/findUserByEmail.repository'
 
 vi.mock("../create_company.repository")
+vi.mock("../../../shared/repositories/findUserByEmail.repository")
 
 vi.mock("../../../helper/hashPassword", () => ({
     hashPassword: vi.fn()

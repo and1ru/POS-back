@@ -1,20 +1,21 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HireSerivce } from "../Hire.service";
 import { hashPassword } from "../../../helper/hashPassword";
-import { findUserByEmail } from "../../create_company/create_company.repository";
-import { hireByAdmin, hireByOwner } from "../Hire.repository";
+import { hireByAdmin, hireByOwner, findBranchById } from "../Hire.repository";
+import { findUserByEmail } from "../../../shared/repositories/findUserByEmail.repository";
 
 vi.mock("../../../helper/hashPassword", () => ({
     hashPassword: vi.fn()
 }));
 
-vi.mock("../../create_company/create_company.repository", () => ({
+vi.mock("../../../shared/repositories/findUserByEmail.repository", () => ({
     findUserByEmail: vi.fn()
 }));
 
 vi.mock("../Hire.repository", () => ({
     hireByAdmin: vi.fn(),
-    hireByOwner: vi.fn()
+    hireByOwner: vi.fn(),
+    findBranchById: vi.fn()
 }));
 
 describe("Service POST /hire", () => {
@@ -42,6 +43,7 @@ describe("Service POST /hire", () => {
 
         service = new HireSerivce();
 
+        vi.mocked(findBranchById).mockResolvedValue([{ name: "branch test"}] as any)
         vi.mocked(findUserByEmail).mockResolvedValue(null as any);
         vi.mocked(hashPassword).mockResolvedValue(hashedPassword);
     });
@@ -63,6 +65,7 @@ describe("Service POST /hire", () => {
             hireData.userId
         );
 
+        expect(findBranchById).toHaveBeenCalledWith(hireData.branchId, hireData.companyId)
         expect(findUserByEmail).toHaveBeenCalledWith(hireData.email);
         expect(hashPassword).toHaveBeenCalledWith(hireData.password);
 
@@ -93,6 +96,7 @@ describe("Service POST /hire", () => {
             hireData.userId
         );
 
+        expect(findBranchById).toHaveBeenCalledWith(hireData.branchId, hireData.companyId)
         expect(findUserByEmail).toHaveBeenCalledWith(hireData.email);
         expect(hashPassword).toHaveBeenCalledWith(hireData.password);
 
@@ -108,6 +112,29 @@ describe("Service POST /hire", () => {
 
         expect(hireByOwner).not.toHaveBeenCalled();
     });
+
+    it("should throw an error if branch does not belong to company", async () => {
+        vi.mocked(findBranchById).mockResolvedValue(undefined)
+
+        await expect(
+            service.hire(
+                hireData.name,
+                hireData.email,
+                hireData.password,
+                hireData.role,
+                hireData.companyId,
+                hireData.branchId,
+                hireData.salary,
+                "owner",
+                hireData.userId
+            )
+        ).rejects.toThrow("did not find branch");
+
+        expect(findUserByEmail).not.toHaveBeenCalled()
+        expect(hashPassword).not.toHaveBeenCalled();
+        expect(hireByOwner).not.toHaveBeenCalled();
+        expect(hireByAdmin).not.toHaveBeenCalled();
+    })
 
     it("should throw an error if the email already exists", async () => {
         vi.mocked(findUserByEmail).mockResolvedValue({
@@ -129,6 +156,7 @@ describe("Service POST /hire", () => {
             )
         ).rejects.toThrow("credentials error");
 
+        expect(findUserByEmail).toHaveBeenCalled()
         expect(hashPassword).not.toHaveBeenCalled();
         expect(hireByOwner).not.toHaveBeenCalled();
         expect(hireByAdmin).not.toHaveBeenCalled();
@@ -153,6 +181,7 @@ describe("Service POST /hire", () => {
             )
         ).rejects.toBe(error);
 
+        expect(findUserByEmail).toHaveBeenCalled()
         expect(hashPassword).not.toHaveBeenCalled();
         expect(hireByOwner).not.toHaveBeenCalled();
     });
@@ -176,6 +205,7 @@ describe("Service POST /hire", () => {
             )
         ).rejects.toBe(error);
 
+        expect(findUserByEmail).toHaveBeenCalled()
         expect(hireByOwner).not.toHaveBeenCalled();
         expect(hireByAdmin).not.toHaveBeenCalled();
     });
@@ -195,9 +225,8 @@ describe("Service POST /hire", () => {
             )
         ).rejects.toThrow("admin can not hire an admin");
 
-        expect(findUserByEmail).toHaveBeenCalledWith(hireData.email);
-        expect(hashPassword).toHaveBeenCalledWith(hireData.password);
-
+        expect(findUserByEmail).not.toHaveBeenCalled()
+        expect(hashPassword).not.toHaveBeenCalled();
         expect(hireByAdmin).not.toHaveBeenCalled();
         expect(hireByOwner).not.toHaveBeenCalled();
     });

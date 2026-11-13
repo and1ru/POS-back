@@ -1,6 +1,7 @@
 import { CustomError } from "../../helper/cutomError"
 import { hashPassword } from "../../helper/hashPassword"
-import { CreateCompanyRepository, findUserByEmail } from "./create_company.repository"
+import { findUserByEmail } from "../../shared/repositories/findUserByEmail.repository"
+import { CreateCompanyRepository } from "./create_company.repository"
 
 export class CreateCompanyService {
     createCompany = async (companyName:string, ownerName:string, email:string, password:string) => {
